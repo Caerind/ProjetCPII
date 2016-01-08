@@ -1,0 +1,6 @@
+#ifndef ENTITIES_H_INCLUDED
+#define ENTITIES_H_INCLUDED
+
+
+
+#endif // ENTITIES_H_INCLUDED
