@@ -1,6 +1,6 @@
 bin/*
 obj/*
-SDL2-2.0.4/*
+SDL2/*
 SDL2.dll
 *.depend
 *.layout

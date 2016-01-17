@@ -1,4 +1,3 @@
 void saveChunk()
 {
-    printf("sauvegarde");
 }

@@ -30,13 +30,13 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="SDL2-2.0.4/i686-w64-mingw32/include" />
+			<Add directory="SDL2/i686-w64-mingw32/include" />
 		</Compiler>
 		<Linker>
-			<Add library="C:\Program Files (x86)\CodeBlocks\MinGW\lib\libmingw32.a" />
-			<Add library="SDL2-2.0.4\i686-w64-mingw32\lib\libSDL2main.a" />
-			<Add library="SDL2-2.0.4\i686-w64-mingw32\lib\libSDL2.dll.a" />
-			<Add directory="SDL2-2.0.4/i686-w64-mingw32/lib" />
+			<Add library="libmingw32.a" />
+			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2main.a" />
+			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2.dll.a" />
+			<Add directory="SDL2/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="Code/Application.c">
 			<Option compilerVar="CC" />
