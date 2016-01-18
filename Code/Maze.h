@@ -4,12 +4,13 @@
 #include <SDL2/SDL.h>
 #include "Structs.h"
 
-Maze* createMaze(int size);
+Maze* createMaze(int sizeX,int sizeY);
 void destroyMaze(Maze* maze);
 void renderMaze(SDL_Renderer* renderer, Maze* maze);
 void fillMaze(Maze* maze, int id);
+int getMazeId(Maze* maze, int x, int y);
+void setMazeId(Maze* maze, int x, int y, int id);
 
 Maze* loadMazeFromFile(const char* filename);
-Maze* generateMaze(int size);
 
 #endif // MAZE_H_INCLUDED

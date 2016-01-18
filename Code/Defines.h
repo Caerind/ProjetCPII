@@ -2,7 +2,9 @@
 #define DEFINES_H_INCLUDED
 
 #define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_HEIGHT 608
+#define TILE_WIDTH 25
+#define TILE_HEIGHT 19
 
 #define TILE_SIZE 32
 

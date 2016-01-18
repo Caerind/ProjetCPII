@@ -84,3 +84,17 @@ void renderSprite(SDL_Renderer* renderer, Sprite* sprite)
         renderTexture(renderer,sprite->texture,sprite->pos.x,sprite->pos.y, &sprite->rect);
     }
 }
+
+
+int randomInt(int min, int max)
+{
+    return rand() % (max - min + 1) + min;
+}
+
+Coords randomCoords(int minX, int maxX, int minY, int maxY)
+{
+    Coords c;
+    c.x = randomInt(minX,maxX);
+    c.y = randomInt(minY,maxY);
+    return c;
+}

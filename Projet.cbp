@@ -42,18 +42,24 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/Application.h" />
-		<Unit filename="Code/Chunk.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Code/Chunk.h" />
+		<Unit filename="Code/Defines.h" />
 		<Unit filename="Code/Entities.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/Entities.h" />
+		<Unit filename="Code/Maze.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/Maze.h" />
+		<Unit filename="Code/MazeGenerator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/MazeGenerator.h" />
 		<Unit filename="Code/Path.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/Path.h" />
+		<Unit filename="Code/Structs.h" />
 		<Unit filename="Code/Utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

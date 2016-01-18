@@ -38,4 +38,15 @@ void destroySprite(Sprite* sprite);
 // Draw a Sprite to an SDL_Renderer with Sprite properties
 void renderSprite(SDL_Renderer* renderer, Sprite* sprite);
 
+
+
+
+/* Random Generator */
+
+// Random Int
+int randomInt(int min, int max);
+
+// Random Coords
+Coords randomCoords(int minX, int maxX, int minY, int maxY);
+
 #endif // UTILS_H_INCLUDED

@@ -21,7 +21,7 @@ typedef struct Sprite Sprite;
 struct Maze
 {
     int** tab;
-    int size;
+    Coords size;
 };
 typedef struct Maze Maze;
 

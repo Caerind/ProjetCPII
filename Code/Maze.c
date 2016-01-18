@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "Defines.h"
 
-Maze* createMaze(int size)
+Maze* createMaze(int sizeX, int sizeY)
 {
     int i;
     Maze* maze = NULL;
@@ -18,17 +18,15 @@ Maze* createMaze(int size)
     }
 
     // Taille
-    maze->size = size;
+    maze->size.x = sizeX;
+    maze->size.y = sizeY;
 
     // Allocation dynamique tableau
-    maze->tab = malloc(maze->size * sizeof(int*));
-    for (i = 0; i < maze->size; i++)
+    maze->tab = malloc(maze->size.x * sizeof(int*));
+    for (i = 0; i < maze->size.x; i++)
     {
-        maze->tab[i] = malloc(maze->size * sizeof(int));
+        maze->tab[i] = malloc(maze->size.y * sizeof(int));
     }
-
-    // Fill it with -1
-    fillMaze(maze,-1);
 
     return maze;
 }
@@ -36,7 +34,7 @@ Maze* createMaze(int size)
 void destroyMaze(Maze* maze)
 {
     int i;
-    for (i = 0; i < maze->size; i++)
+    for (i = 0; i < maze->size.x; i++)
     {
         free(maze->tab[i]);
     }
@@ -46,7 +44,7 @@ void destroyMaze(Maze* maze)
 
 void renderMaze(SDL_Renderer* renderer, Maze* maze)
 {
-    int i, j;
+    Coords c;
     Sprite* sprite = NULL;
     if (maze != NULL)
     {
@@ -56,13 +54,13 @@ void renderMaze(SDL_Renderer* renderer, Maze* maze)
             sprite->rect.y = 0;
             sprite->rect.w = TILE_SIZE;
             sprite->rect.h = TILE_SIZE;
-            for (j = 0; j < maze->size; j++)
+            for (c.y = 0; c.y < maze->size.y; c.y++)
             {
-                for (i = 0; i < maze->size; i++)
+                for (c.x = 0; c.x < maze->size.x; c.x++)
                 {
-                    sprite->pos.x = i * TILE_SIZE;
-                    sprite->pos.y = j * TILE_SIZE;
-                    sprite->rect.x = maze->tab[i][j] * TILE_SIZE;
+                    sprite->pos.x = c.x * TILE_SIZE;
+                    sprite->pos.y = c.y * TILE_SIZE;
+                    sprite->rect.x = maze->tab[c.x][c.y] * TILE_SIZE;
                     renderSprite(renderer,sprite);
                 }
             }
@@ -72,15 +70,38 @@ void renderMaze(SDL_Renderer* renderer, Maze* maze)
 
 void fillMaze(Maze* maze, int id)
 {
-    int i, j;
+    Coords c;
     if (maze != NULL)
     {
-        for (i = 0; i < maze->size; i++)
+        for (c.x = 0; c.x < maze->size.x; c.x++)
         {
-            for(j = 0; j < maze->size; j++)
+            for(c.y = 0; c.y < maze->size.y; c.y++)
             {
-                maze->tab[i][j] = id;
+                maze->tab[c.x][c.y] = id;
             }
+        }
+    }
+}
+
+int getMazeId(Maze* maze, int x, int y)
+{
+    if (maze != NULL)
+    {
+        if (x >= 0 && x < maze->size.x && y >= 0 && y < maze->size.y)
+        {
+            return maze->tab[x][y];
+        }
+    }
+    return -1;
+}
+
+void setMazeId(Maze* maze, int x, int y, int id)
+{
+    if (maze != NULL)
+    {
+        if (x >= 0 && x < maze->size.x && y >= 0 && y < maze->size.y)
+        {
+            maze->tab[x][y] = id;
         }
     }
 }
@@ -89,8 +110,7 @@ Maze* loadMazeFromFile(const char* filename)
 {
     FILE* file = NULL;
     Maze* maze = NULL;
-    int size = 0;
-    int i, j;
+    Coords c;
 
     // Open file
     file = fopen(filename,"r");
@@ -101,33 +121,20 @@ Maze* loadMazeFromFile(const char* filename)
     }
 
     // Get size
-    fscanf(file,"%d",&size);
-    printf("size : %d\n",size);
+    fscanf(file,"%d %d",&c.x,&c.y);
 
     // Make the maze with the size
-    maze = createMaze(size);
+    maze = createMaze(c.x,c.y);
 
     // Load it
-    for (j = 0; j < maze->size; j++)
+    for (c.y = 0; c.y < maze->size.y; c.y++)
     {
-        for (i = 0; i < maze->size; i++)
+        for (c.x = 0; c.x < maze->size.x; c.x++)
         {
-            fscanf(file,"%d",&size);
-            printf("id : %d\n",size);
-            maze->tab[i][j] = size;
+            fscanf(file,"%d",&maze->tab[c.x][c.y]);
         }
     }
 
     fclose(file);
-    return maze;
-}
-
-Maze* generateMaze(int size)
-{
-    Maze* maze = NULL;
-    maze = createMaze(size);
-
-    // GEN
-
     return maze;
 }

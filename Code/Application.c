@@ -1,19 +1,25 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "Utils.h"
 #include "Defines.h"
 #include "Maze.h"
+#include "MazeGenerator.h"
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* mRenderer = NULL;
 Sprite* mBackground = NULL;
-int mWindowOpen = 0; // boolean
+int mWindowOpen = 0;
 
+int mazeStep = 0;
+int done = 0;
 Maze* mMaze = NULL;
 
 int init()
 {
+    srand(time(NULL));
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         logSDLError("Échec de l'initialisation de la SDL");
@@ -45,12 +51,15 @@ int init()
         return -4;
     }
 
-    mMaze = loadMazeFromFile("Assets/test.xmaze");
+    //mMaze = loadMazeFromFile("Assets/test.xmaze");
+    mMaze = createMaze(TILE_WIDTH,TILE_HEIGHT);
     if (mMaze == NULL)
     {
         logError("Erreur maze");
         return -5;
     }
+
+    mazeGenerator(mMaze);
 
     return 1;
 }
@@ -84,6 +93,8 @@ void handleInput()
             // Handle Mouse Click Left
             if (event.button.button == SDL_BUTTON_LEFT)
             {
+                mazeStep++;
+                done = 0;
             }
 
             // Handle Mouse Click Right
@@ -101,7 +112,21 @@ void handleInput()
 
 void update()
 {
-
+    if (done == 0)
+    {
+        switch (mazeStep)
+        {
+            case 1: generationStep1(mMaze) ; break;
+            case 2: generationStep2(mMaze); break;
+            case 3: generationStep3(mMaze); break;
+            case 4: generationStep4(mMaze); break;
+            case 5: generationStep5(mMaze); break;
+            case 6: generationStep6(mMaze); break;
+            case 7: generationStep7(mMaze); break;
+            default: break;
+        }
+        done = 1;
+    }
 }
 
 void render()
@@ -115,9 +140,6 @@ void render()
 
 	//Update the screen
 	SDL_RenderPresent(mRenderer);
-
-	//Take a quick break after all that hard work
-	SDL_Delay(16); // 60FPS
 }
 
 void run()
@@ -129,6 +151,9 @@ void run()
         update();
 
         render();
+
+        //Take a quick break after all that hard work
+        SDL_Delay(20); // ~60FPS
     }
 }
 
