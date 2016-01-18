@@ -57,13 +57,13 @@ Sprite* loadSprite(const char* file, SDL_Renderer* renderer)
     sprite = malloc(sizeof(Sprite)); // Allocation de la mémoire
     if (sprite == NULL)
     {
-        logError("Mauvais alloc");
+        logError("Mauvaise alloc");
         return NULL;
     }
 
     sprite->texture = loadTexture(file,renderer);
-    sprite->x = 0;
-    sprite->y = 0;
+    sprite->pos.x = 0;
+    sprite->pos.y = 0;
     sprite->rect.x = 0;
     sprite->rect.y = 0;
     SDL_QueryTexture(sprite->texture, NULL, NULL, &sprite->rect.w, &sprite->rect.h);
@@ -81,6 +81,6 @@ void renderSprite(SDL_Renderer* renderer, Sprite* sprite)
 {
     if (sprite != NULL)
     {
-        renderTexture(renderer,sprite->texture,sprite->x,sprite->y, &sprite->rect);
+        renderTexture(renderer,sprite->texture,sprite->pos.x,sprite->pos.y, &sprite->rect);
     }
 }

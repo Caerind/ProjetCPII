@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Utils.h"
+#include "Defines.h"
+#include "Maze.h"
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* mRenderer = NULL;
 Sprite* mBackground = NULL;
 int mWindowOpen = 0; // boolean
+
+Maze* mMaze = NULL;
 
 int init()
 {
@@ -16,7 +20,7 @@ int init()
         return -1;
     }
 
-    mWindow = SDL_CreateWindow("Labyrinthe",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_SHOWN);
+    mWindow = SDL_CreateWindow("Labyrinthe",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT,SDL_WINDOW_SHOWN);
     if (mWindow == NULL)
     {
         logSDLError("Erreur de création de la fenêtre");
@@ -34,11 +38,18 @@ int init()
         return -3;
     }
 
-    mBackground = loadSprite("fond.bmp",mRenderer);
+    mBackground = loadSprite("Assets/fond.bmp",mRenderer);
     if (mBackground == NULL)
     {
         logError("Impossible de créer la sprite");
         return -4;
+    }
+
+    mMaze = loadMazeFromFile("Assets/test.xmaze");
+    if (mMaze == NULL)
+    {
+        logError("Erreur maze");
+        return -5;
     }
 
     return 1;
@@ -46,6 +57,7 @@ int init()
 
 void quit()
 {
+    destroyMaze(mMaze);
     destroySprite(mBackground);
 
     SDL_DestroyRenderer(mRenderer);
@@ -99,6 +111,7 @@ void render()
 
 	//Draw the texture
 	renderSprite(mRenderer, mBackground);
+	renderMaze(mRenderer, mMaze);
 
 	//Update the screen
 	SDL_RenderPresent(mRenderer);

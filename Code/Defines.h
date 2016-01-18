@@ -1,0 +1,9 @@
+#ifndef DEFINES_H_INCLUDED
+#define DEFINES_H_INCLUDED
+
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
+
+#define TILE_SIZE 32
+
+#endif // DEFINES_H_INCLUDED

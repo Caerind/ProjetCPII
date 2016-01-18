@@ -13,10 +13,16 @@ typedef struct Coords Coords;
 struct Sprite
 {
     SDL_Texture* texture;
-    int x;
-    int y;
+    Coords pos;
     SDL_Rect rect;
 };
 typedef struct Sprite Sprite;
+
+struct Maze
+{
+    int** tab;
+    int size;
+};
+typedef struct Maze Maze;
 
 #endif // SPRITE_H_INCLUDED
