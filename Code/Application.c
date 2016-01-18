@@ -5,7 +5,7 @@
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* mRenderer = NULL;
-SDL_Texture* mBackground = NULL;
+Sprite* mBackground = NULL;
 int mWindowOpen = 0; // boolean
 
 int init()
@@ -34,17 +34,22 @@ int init()
         return -3;
     }
 
-    mBackground = loadTexture("fond.bmp",mRenderer);
+    mBackground = loadSprite("fond.bmp",mRenderer);
+    if (mBackground == NULL)
+    {
+        logError("Impossible de créer la sprite");
+        return -4;
+    }
 
     return 1;
 }
 
 void quit()
 {
-    SDL_DestroyTexture(mBackground);
+    destroySprite(mBackground);
+
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
-
     mWindowOpen = 0; // false
 
     SDL_Quit();
@@ -93,7 +98,7 @@ void render()
 	SDL_RenderClear(mRenderer);
 
 	//Draw the texture
-	renderTexture(mBackground, mRenderer, 0, 0, NULL);
+	renderSprite(mRenderer, mBackground);
 
 	//Update the screen
 	SDL_RenderPresent(mRenderer);
