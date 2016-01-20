@@ -1,4 +1,3 @@
-#include "Structs.h"
 #include "Utils.h"
 #include "Maze.h"
 

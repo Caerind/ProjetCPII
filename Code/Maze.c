@@ -13,7 +13,7 @@ Maze* createMaze(int sizeX, int sizeY)
     maze = malloc(sizeof(Maze));
     if (maze == NULL)
     {
-        logError("Mauvaise alloc");
+        error("Mauvaise alloc");
         return NULL;
     }
 
@@ -45,10 +45,10 @@ void destroyMaze(Maze* maze)
 void renderMaze(SDL_Renderer* renderer, Maze* maze)
 {
     Coords c;
-    Sprite* sprite = NULL;
+    SDL_Sprite* sprite = NULL;
     if (maze != NULL)
     {
-        sprite = loadSprite("Assets/tileset.bmp",renderer);
+        sprite = SDL_CreateSprite("Assets/tileset.bmp",renderer);
         if (sprite != NULL)
         {
             sprite->rect.y = 0;
@@ -61,7 +61,7 @@ void renderMaze(SDL_Renderer* renderer, Maze* maze)
                     sprite->pos.x = c.x * TILE_SIZE;
                     sprite->pos.y = c.y * TILE_SIZE;
                     sprite->rect.x = maze->tab[c.x][c.y] * TILE_SIZE;
-                    renderSprite(renderer,sprite);
+                    SDL_RenderSprite(renderer,sprite);
                 }
             }
         }
@@ -116,7 +116,7 @@ Maze* loadMazeFromFile(const char* filename)
     file = fopen(filename,"r");
     if (file == NULL)
     {
-        logError("Impossible d'ouvrir ce labyrinthe");
+        error("File Lab");
         return NULL;
     }
 

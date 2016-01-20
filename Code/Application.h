@@ -8,7 +8,7 @@ int init();
 void quit();
 
 // Fonction permettant de gérer les entrées de l'utilisateur
-void handleInput();
+void handleEvents();
 
 // Fonction permettant de gérer l'intelligence des entités
 void update();

@@ -1,159 +1,98 @@
-#include <SDL2/SDL.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
-#include "Utils.h"
 #include "Defines.h"
-#include "Maze.h"
-#include "MazeGenerator.h"
+#include "Utils.h"
+#include "States.h"
 
-SDL_Window* mWindow = NULL;
-SDL_Renderer* mRenderer = NULL;
-Sprite* mBackground = NULL;
-int mWindowOpen = 0;
-
-int mazeStep = 0;
-int done = 0;
-Maze* mMaze = NULL;
+// Notre structure Context
+SDL_Context* mContext = NULL;
 
 int init()
 {
+    // Initialisation du générateur de nombre aléatoire
     srand(time(NULL));
 
+    // Initialisation de la SDL (Module Vidéo)
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        logSDLError("Échec de l'initialisation de la SDL");
+        errorSDL("Init");
         return -1;
     }
 
-    mWindow = SDL_CreateWindow("Labyrinthe",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT,SDL_WINDOW_SHOWN);
-    if (mWindow == NULL)
+    // Initialisation du Context
+    mContext = SDL_CreateContext("Labyrinthe",SCREEN_WIDTH,SCREEN_HEIGHT);
+    if (mContext == NULL)
     {
-        logSDLError("Erreur de création de la fenêtre");
-        return -2;
-    }
-    else
-    {
-        mWindowOpen = 1; // true
+        error("Context");
+        return -1;
     }
 
-    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (mRenderer == NULL)
-    {
-        logSDLError("Impossible de créer le renderer");
-        return -3;
-    }
-
-    mBackground = loadSprite("Assets/fond.bmp",mRenderer);
-    if (mBackground == NULL)
-    {
-        logError("Impossible de créer la sprite");
-        return -4;
-    }
-
-    //mMaze = loadMazeFromFile("Assets/test.xmaze");
-    mMaze = createMaze(TILE_WIDTH,TILE_HEIGHT);
-    if (mMaze == NULL)
-    {
-        logError("Erreur maze");
-        return -5;
-    }
-
-    mazeGenerator(mMaze);
+    // Chargement du menu
+    STATES_switch(STATE_MENU,mContext);
 
     return 1;
 }
 
 void quit()
 {
-    destroyMaze(mMaze);
-    destroySprite(mBackground);
+    // Suppresion du Context
+    SDL_DestroyContext(mContext);
 
-    SDL_DestroyRenderer(mRenderer);
-    SDL_DestroyWindow(mWindow);
-    mWindowOpen = 0; // false
-
+    // On quitte SDL
     SDL_Quit();
 }
 
-void handleInput()
+void handleEvents()
 {
     SDL_Event event;
-    while(SDL_PollEvent(&event) != 0)
+
+    // On traite les évènements
+    while (SDL_PollEvent(&event) != 0)
     {
-        // Handle quit
-        if(event.type == SDL_QUIT)
+        // On indique qu'on souhaite fermer la fenêtre si l'on souhaite quitter le programme
+        if (event.type == SDL_QUIT)
         {
-            mWindowOpen = 0; // false
+            mContext->isOpen = 0;
         }
 
-        // Handle Mouse Click
-        if (event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            // Handle Mouse Click Left
-            if (event.button.button == SDL_BUTTON_LEFT)
-            {
-                mazeStep++;
-                done = 0;
-            }
-
-            // Handle Mouse Click Right
-            if (event.button.button == SDL_BUTTON_RIGHT)
-            {
-            }
-
-            // Handle Mouse Click Middle
-            if (event.button.button == SDL_BUTTON_MIDDLE)
-            {
-            }
-        }
+        // On délègue l'évènement au state actuel
+        STATES_handleEvent(event,mContext);
     }
 }
 
 void update()
 {
-    if (done == 0)
-    {
-        switch (mazeStep)
-        {
-            case 1: generationStep1(mMaze) ; break;
-            case 2: generationStep2(mMaze); break;
-            case 3: generationStep3(mMaze); break;
-            case 4: generationStep4(mMaze); break;
-            case 5: generationStep5(mMaze); break;
-            case 6: generationStep6(mMaze); break;
-            case 7: generationStep7(mMaze); break;
-            default: break;
-        }
-        done = 1;
-    }
+    // On met à jour le state actuel
+    STATES_update();
 }
 
 void render()
 {
-    //First clear the renderer
-	SDL_RenderClear(mRenderer);
+    // On efface le contenu de la fenêtre
+	SDL_RenderClear(mContext->renderer);
 
-	//Draw the texture
-	renderSprite(mRenderer, mBackground);
-	renderMaze(mRenderer, mMaze);
+    // On dessine le state actuel
+	STATES_render(mContext->renderer);
 
-	//Update the screen
-	SDL_RenderPresent(mRenderer);
+    // On affiche le renderer sur la fenêtre
+	SDL_RenderPresent(mContext->renderer);
 }
 
 void run()
 {
-    while (mWindowOpen)
+    // On boucle tant qu'on a pas demander de quitter
+    while (mContext->isOpen)
     {
-        handleInput();
+        // Gestion des évènements
+        handleEvents();
 
+        // Mise à jour
         update();
 
+        // Rendu
         render();
 
-        //Take a quick break after all that hard work
-        SDL_Delay(20); // ~60FPS
+        // On attend un peu avant de commencer la prochaine boucle
+        SDL_Delay(20); // 20ms ~= 60 FPS
     }
 }
 

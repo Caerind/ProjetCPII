@@ -3,6 +3,14 @@
 
 #include <SDL2/SDL.h>
 
+struct SDL_Context
+{
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    int isOpen;
+};
+typedef struct SDL_Context SDL_Context;
+
 struct Coords
 {
     int x;
@@ -10,13 +18,13 @@ struct Coords
 };
 typedef struct Coords Coords;
 
-struct Sprite
+struct SDL_Sprite
 {
     SDL_Texture* texture;
-    Coords pos;
+    SDL_Point pos;
     SDL_Rect rect;
 };
-typedef struct Sprite Sprite;
+typedef struct SDL_Sprite SDL_Sprite;
 
 struct Maze
 {

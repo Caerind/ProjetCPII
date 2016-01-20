@@ -1,27 +1,36 @@
 #ifndef UTILS_H_INCLUDED
 #define UTILS_H_INCLUDED
 
+#include "Defines.h"
 #include "Structs.h"
 
 /* Logging Functions */
 
 // Report an error
-void logError(const char* msg);
+void error(const char* msg);
 
 // Report an SDL error
-void logSDLError(const char* msg);
+void errorSDL(const char* msg);
 
 
+
+/* Context Function */
+
+// Load a context
+SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY);
+
+// Free the context
+void SDL_DestroyContext(SDL_Context* context);
 
 
 
 /* Texture Function */
 
 // Load a texture easily
-SDL_Texture* loadTexture(const char* file, SDL_Renderer* renderer);
+SDL_Texture* SDL_CreateTextureFromFile(const char* file, SDL_Renderer* renderer);
 
 // Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving the texture's width and height
-void renderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y, SDL_Rect* clip);
+void SDL_RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y, SDL_Rect* clip);
 
 
 
@@ -30,14 +39,21 @@ void renderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y, S
 /* Sprite Function */
 
 // Load Sprite with texture
-Sprite* loadSprite(const char* file, SDL_Renderer* renderer);
+SDL_Sprite* SDL_CreateSprite(const char* file, SDL_Renderer* renderer);
 
 // Destroy Sprite
-void destroySprite(Sprite* sprite);
+void SDL_DestroySprite(SDL_Sprite* sprite);
 
 // Draw a Sprite to an SDL_Renderer with Sprite properties
-void renderSprite(SDL_Renderer* renderer, Sprite* sprite);
+void SDL_RenderSprite(SDL_Renderer* renderer, SDL_Sprite* sprite);
 
+// Get the rect in the window of a sprite
+SDL_Rect SDL_GetSpriteRect(SDL_Sprite* sprite);
+
+
+
+/* Get Mouse Position */
+SDL_Point SDL_GetMousePosition();
 
 
 

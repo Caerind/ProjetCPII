@@ -55,10 +55,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/MazeGenerator.h" />
+		<Unit filename="Code/Menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/Menu.h" />
 		<Unit filename="Code/Path.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/Path.h" />
+		<Unit filename="Code/States.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/States.h" />
 		<Unit filename="Code/Structs.h" />
 		<Unit filename="Code/Utils.c">
 			<Option compilerVar="CC" />
