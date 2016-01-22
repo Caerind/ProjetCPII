@@ -116,7 +116,7 @@ Maze* loadMazeFromFile(const char* filename)
     file = fopen(filename,"r");
     if (file == NULL)
     {
-        error("File Lab");
+        error("Load Maze");
         return NULL;
     }
 
@@ -137,4 +137,36 @@ Maze* loadMazeFromFile(const char* filename)
 
     fclose(file);
     return maze;
+}
+
+void saveMazeToFile(Maze* maze, const char* filename)
+{
+    FILE* file = NULL;
+    SDL_Point p;
+    if (maze != NULL)
+    {
+        // Open file
+        file = fopen(filename,"w");
+        if (file != NULL)
+        {
+            // Save size
+            fprintf(file,"%d %d\n",maze->size.x,maze->size.y);
+
+            // Save it
+            for (p.y = 0; p.y < maze->size.y; p.y++)
+            {
+                for (p.x = 0; p.x < maze->size.x; p.x++)
+                {
+                    fprintf(file,"%d ",maze->tab[p.x][p.y]);
+                }
+                fprintf(file,"\n");
+            }
+
+            fclose(file);
+        }
+        else
+        {
+            error("Save Maze");
+        }
+    }
 }

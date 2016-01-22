@@ -24,4 +24,7 @@ void setMazeId(Maze* maze, int x, int y, int id);
 // Fonction pour charger un labyrinthe depuis un fichier
 Maze* loadMazeFromFile(const char* filename);
 
+// Fonction pour sauvegarder un labyrinthe dans un fichier
+void saveMazeToFile(Maze* maze, const char* filename);
+
 #endif // MAZE_H_INCLUDED

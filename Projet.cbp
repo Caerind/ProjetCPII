@@ -38,6 +38,14 @@
 			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2.dll.a" />
 			<Add directory="SDL2/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="Code/Algo1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/Algo1.h" />
+		<Unit filename="Code/Algo2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/Algo2.h" />
 		<Unit filename="Code/Application.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -47,6 +55,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Code/Entities.h" />
+		<Unit filename="Code/Game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Code/Game.h" />
 		<Unit filename="Code/Maze.c">
 			<Option compilerVar="CC" />
 		</Unit>
