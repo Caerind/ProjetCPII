@@ -9,6 +9,12 @@ Cheese* createCheese(int x, int y,SDL_Renderer* renderer);
 void destroyCheese(Cheese* cheese);
 void renderCheese(SDL_Renderer* renderer, Cheese* cheese);
 
+void SetMousePosition(Mouse* mouse,int x, int y);
+Coords GetMousePosition(Mouse* mouse);
+Mouse* createMouse(int x, int y,SDL_Renderer* renderer);
+void destroyMouse(Mouse* mosue);
+void renderMouse(SDL_Renderer* renderer, Mouse* mouse);
+
 
 
 

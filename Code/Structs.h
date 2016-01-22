@@ -43,14 +43,14 @@ typedef struct Cheese Cheese;
 struct Mouse
 {
     Coords coords;
-    SDL_Sprite* sorite;
+    SDL_Sprite* sprite;
 };
 typedef struct Mouse Mouse;
 
 struct Cat
 {
     Coords coords;
-    SDL_Sprite* sorite;
+    SDL_Sprite* sprite;
 };
 typedef struct Cat Cat;
 

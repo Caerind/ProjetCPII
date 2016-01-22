@@ -15,7 +15,6 @@ Coords GetCheesePosition(Cheese* cheese)
 }
 
 
-
 Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
 {
      Cheese* cheese = NULL;
@@ -48,4 +47,52 @@ void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
     SDL_RenderSprite(renderer,cheese->sprite);
 }
 
+
+
+
+void SetMousePosition(Mouse* mouse,int x, int y)
+{
+    mouse->coords.x=x;
+    mouse->coords.y=y;
+    mouse->sprite->pos.x=x*TILE_SIZE;
+    mouse->sprite->pos.y=y*TILE_SIZE;
+}
+
+Coords GetMousePosition(Mouse* mouse)
+{
+   return mouse->coords;
+}
+
+
+Mouse* createMouse()(int x, int y,SDL_Renderer* renderer)
+{
+     Mouse* mouse = NULL;
+
+    // Allocation m¨¦moire
+    mouse = malloc(sizeof(Mouse));
+    if (mouse == NULL)
+    {
+        error("Mauvaise alloc-Mouse");
+        return NULL;
+    }
+
+    mouse->sprite=SDL_CreateSprite("Assets/souris.bmp",renderer);
+
+    SetMousePosition(mouse,x,y);
+
+    return mouse;
+}
+
+
+void destroyMouse(Mouse* mouse)
+{
+    SDL_DestroySprite(mouse->sprite);
+    free(mouse);
+}
+
+
+void renderMouse(SDL_Renderer* renderer, Mouse* mouse)
+{
+    SDL_RenderSprite(renderer,mouse->sprite);
+}
 
