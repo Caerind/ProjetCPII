@@ -33,4 +33,25 @@ struct Maze
 };
 typedef struct Maze Maze;
 
+struct Cheese
+{
+    Coords coords;
+    SDL_Sprite* sprite;
+};
+typedef struct Cheese Cheese;
+
+struct Mouse
+{
+    Coords coords;
+    SDL_Sprite* sorite;
+};
+typedef struct Mouse Mouse;
+
+struct Cat
+{
+    Coords coords;
+    SDL_Sprite* sorite;
+};
+typedef struct Cat Cat;
+
 #endif // SPRITE_H_INCLUDED
