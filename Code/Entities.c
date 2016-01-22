@@ -1,6 +1,5 @@
 #include "Utils.h"
 
-
 void SetCheesePosition(Cheese* cheese,int x, int y)
 {
     cheese->coords.x=x;
@@ -14,12 +13,11 @@ Coords GetCheesePosition(Cheese* cheese)
    return cheese->coords;
 }
 
-
 Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
 {
      Cheese* cheese = NULL;
 
-    // Allocation m¨¦moire
+    // Allocation memoire
     cheese = malloc(sizeof(Cheese));
     if (cheese == NULL)
     {
@@ -34,13 +32,11 @@ Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
     return cheese;
 }
 
-
 void destroyCheese(Cheese* cheese)
 {
     SDL_DestroySprite(cheese->sprite);
     free(cheese);
 }
-
 
 void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
 {
@@ -63,12 +59,11 @@ Coords GetMousePosition(Mouse* mouse)
    return mouse->coords;
 }
 
-
 Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
 {
      Mouse* mouse = NULL;
 
-    // Allocation m¨¦moire
+    // Allocation memoire
     mouse = malloc(sizeof(Mouse));
     if (mouse == NULL)
     {
@@ -83,20 +78,16 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
     return mouse;
 }
 
-
 void destroyMouse(Mouse* mouse)
 {
     SDL_DestroySprite(mouse->sprite);
     free(mouse);
 }
 
-
 void renderMouse(SDL_Renderer* renderer, Mouse* mouse)
 {
     SDL_RenderSprite(renderer,mouse->sprite);
 }
-
-
 
 
 
@@ -113,13 +104,12 @@ Coords GetCatPosition(Cat* cat)
    return cat->coords;
 }
 
-
 Cat* createCat(int x, int y,SDL_Renderer* renderer)
 {
      Cat* cat = NULL;
 
-    // Allocation m¨¦moire
-    cat = malloc(sizeof(cat));
+    // Allocation memoire
+    cat = malloc(sizeof(Cat));
     if (cat == NULL)
     {
         error("Mauvaise alloc-Cat");
@@ -133,16 +123,13 @@ Cat* createCat(int x, int y,SDL_Renderer* renderer)
     return cat;
 }
 
-
 void destroyCat(Cat* cat)
 {
     SDL_DestroySprite(cat->sprite);
     free(cat);
 }
 
-
 void renderCat(SDL_Renderer* renderer, Cat* cat)
 {
     SDL_RenderSprite(renderer,cat->sprite);
 }
-

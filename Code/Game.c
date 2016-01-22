@@ -56,6 +56,10 @@ void GAME_destroy()
     {
         destroyMouse(mMouses[i]);
     }
+    for (i = 0; i < numCats; i++)
+    {
+        destroyCat(mCats[i]);
+    }
 }
 
 void GAME_handleEvent(SDL_Event event, SDL_Context* context)
@@ -139,5 +143,9 @@ void GAME_render(SDL_Renderer* renderer)
     for (i = 0; i < numMouses; i++)
     {
         renderMouse(renderer,mMouses[i]);
+    }
+    for (i = 0; i < numCats; i++)
+    {
+        renderCat(renderer,mCats[i]);
     }
 }
