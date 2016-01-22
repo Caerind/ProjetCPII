@@ -3,10 +3,12 @@
 #include "MazeGenerator.h"
 
 Maze* mMaze = NULL;
-Cheese* mCheeses[100] = NULL;
+Cheese* mCheeses[100];
 int numCheeses = 0;
-Mouse* mMouses[100] = NULL;
+Mouse* mMouses[100];
 int numMouses = 0;
+Cat* mCats[100];
+int numCats = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {
@@ -18,25 +20,25 @@ int GAME_create(SDL_Renderer* renderer)
     }
 
     mCheeses[numCheeses] = createCheese(1,1,renderer);
-    if (mChesses[numCheeses] != NULL)
-    {
-        numCheeses++;
-    }
-    else
+    if (mCheeses[numCheeses] == NULL)
     {
         error("Tab chesse");
         return 0;
     }
+    else
+    {
+        numCheeses++;
+    }
 
     mMouses[numMouses] = createMouse(23,17,renderer);
-    if (mMouses[numMouses] != NULL)
-    {
-        numMouses++;
-    }
-    else
+    if (mMouses[numMouses] == NULL)
     {
         error("Tab mouse");
         return 0;
+    }
+    else
+    {
+        numMouses++;
     }
 
     return 1;
@@ -46,9 +48,9 @@ void GAME_destroy()
 {
     int i = 0;
     destroyMaze(mMaze);
-    for (i = 0; i < numChesses; i++)
+    for (i = 0; i < numCheeses; i++)
     {
-        destroyChesse(mCheeses[i]);
+        destroyCheese(mCheeses[i]);
     }
     for (i = 0; i < numMouses; i++)
     {
@@ -74,7 +76,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
             {
-                mMouses[numCheeses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,renderer);
+                mMouses[numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
                 if (mMouses[numMouses] != NULL)
                 {
                     numMouses++;
@@ -91,8 +93,8 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
             {
-                mCheeses[numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,renderer);
-                if (mChesses[numCheeses] != NULL)
+                mCheeses[numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                if (mCheeses[numCheeses] != NULL)
                 {
                     numCheeses++;
                 }
@@ -106,7 +108,18 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         // Middle
         if (event.button.button == SDL_BUTTON_MIDDLE)
         {
-            setMazeId(mMaze, m.x / TILE_SIZE, m.y / TILE_SIZE, 4);
+            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
+            {
+                mCats[numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                if (mCats[numCats] != NULL)
+                {
+                    numCats++;
+                }
+                else
+                {
+                    error("Tab cat");
+                }
+            }
         }
     }
 }
