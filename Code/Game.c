@@ -3,6 +3,7 @@
 #include "MazeGenerator.h"
 
 Maze* mMaze = NULL;
+Cheese* mCheese=NULL;
 
 int GAME_create(SDL_Renderer* renderer)
 {
@@ -13,12 +14,15 @@ int GAME_create(SDL_Renderer* renderer)
         return 0;
     }
 
+    mCheese=createCheese(1,1,renderer);
+
     return 1;
 }
 
 void GAME_destroy()
 {
     destroyMaze(mMaze);
+    destroyCheese(mCheese);
 }
 
 void GAME_handleEvent(SDL_Event event, SDL_Context* context)
@@ -61,4 +65,5 @@ void GAME_update()
 void GAME_render(SDL_Renderer* renderer)
 {
     renderMaze(renderer,mMaze);
+    renderCheese(renderer,mCheese);
 }

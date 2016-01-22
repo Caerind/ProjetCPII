@@ -5,8 +5,8 @@ void SetCheesePosition(Cheese* cheese,int x, int y)
 {
     cheese->coords.x=x;
     cheese->coords.y=y;
-    cheese->sprite->x=x*TILE_SIZE;
-    cheese->sprite->y=y*TILE_SIZE;
+    cheese->sprite->pos.x=x*TILE_SIZE;
+    cheese->sprite->pos.y=y*TILE_SIZE;
 }
 
 Coords GetCheesePosition(Cheese* cheese)
@@ -45,7 +45,7 @@ void destroyCheese(Cheese* cheese)
 
 void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
 {
-    SDL_RendererSprite(renderer,cheese->sprite);
+    SDL_RenderSprite(renderer,cheese->sprite);
 }
 
 
