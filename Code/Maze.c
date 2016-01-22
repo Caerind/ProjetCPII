@@ -13,7 +13,7 @@ Maze* createMaze(int sizeX, int sizeY)
     maze = malloc(sizeof(Maze));
     if (maze == NULL)
     {
-        error("Mauvaise alloc");
+        error("Mauvaise alloc - Maze");
         return NULL;
     }
 
@@ -65,6 +65,7 @@ void renderMaze(SDL_Renderer* renderer, Maze* maze)
                 }
             }
         }
+        SDL_DestroySprite(sprite);
     }
 }
 
