@@ -20,6 +20,9 @@ Maze* createMaze(int sizeX, int sizeY)
     // Taille
     maze->size.x = sizeX;
     maze->size.y = sizeY;
+    maze->numCheeses = 0;
+    maze->numCats = 0;
+    maze->numMouses = 0;
 
     // Allocation dynamique tableau
     maze->tab = malloc(maze->size.x * sizeof(int*));

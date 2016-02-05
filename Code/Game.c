@@ -3,12 +3,6 @@
 #include "MazeGenerator.h"
 
 Maze* mMaze = NULL;
-Cheese* mCheeses[100];
-int numCheeses = 0;
-Mouse* mMouses[100];
-int numMouses = 0;
-Cat* mCats[100];
-int numCats = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {

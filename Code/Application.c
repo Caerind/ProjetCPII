@@ -34,6 +34,9 @@ int init()
 
 void quit()
 {
+    // On detruit le dernier state
+    STATES_switch(-1,mContext);
+
     // Suppresion du Context
     SDL_DestroyContext(mContext);
 
