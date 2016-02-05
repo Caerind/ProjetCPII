@@ -21,4 +21,13 @@ enum States
     STATE_ALGO_2 = 3,
 };
 
+enum Direction
+{
+    North = 0,
+    West = 1,
+    South = 2,
+    East = 3,
+    DirCount = 4,
+};
+
 #endif // DEFINES_H_INCLUDED

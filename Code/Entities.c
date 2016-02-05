@@ -61,7 +61,8 @@ Coords GetMousePosition(Mouse* mouse)
 
 Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
 {
-     Mouse* mouse = NULL;
+    Mouse* mouse = NULL;
+    Node b;
 
     // Allocation memoire
     mouse = malloc(sizeof(Mouse));
@@ -74,6 +75,15 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
     mouse->sprite=SDL_CreateSprite("Assets/souris.bmp",renderer);
 
     SetMousePosition(mouse,x,y);
+
+    b.x = x;
+    b.y = y;
+    b.parent = NULL;
+
+    mouse->nodes[0] = b;
+    mouse->numNodes++;
+
+    mouse->actualNode = &mouse->nodes[0];
 
     return mouse;
 }

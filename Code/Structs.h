@@ -37,6 +37,10 @@ struct Mouse
 {
     Coords coords;
     SDL_Sprite* sprite;
+
+    Node target;
+    Node* actualNode;
+    Node nodes[400];
 };
 typedef struct Mouse Mouse;
 
