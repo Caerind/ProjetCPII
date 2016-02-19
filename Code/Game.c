@@ -1,8 +1,13 @@
 #include "Utils.h"
 #include "Maze.h"
 #include "MazeGenerator.h"
+#include "Entities.h"
+#include "States.h"
+#include "Path.h"
 
 Maze* mMaze = NULL;
+int mFrameMouseCount = 0;
+int mFrameCatCount = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {
@@ -13,27 +18,12 @@ int GAME_create(SDL_Renderer* renderer)
         return 0;
     }
 
-    mCheeses[numCheeses] = createCheese(1,1,renderer);
-    if (mCheeses[numCheeses] == NULL)
-    {
-        error("Tab chesse");
-        return 0;
-    }
-    else
-    {
-        numCheeses++;
-    }
+    mMaze->cheeses[mMaze->numCheeses] = createCheese(1,1,renderer);
+    mMaze->numCheeses++;
 
-    mMouses[numMouses] = createMouse(23,17,renderer);
-    if (mMouses[numMouses] == NULL)
-    {
-        error("Tab mouse");
-        return 0;
-    }
-    else
-    {
-        numMouses++;
-    }
+    mMaze->mouses[mMaze->numMouses] = createMouse(23,17,renderer);
+    generateMouseTree(mMaze,mMaze->numMouses);
+    mMaze->numMouses++;
 
     return 1;
 }
@@ -41,19 +31,19 @@ int GAME_create(SDL_Renderer* renderer)
 void GAME_destroy()
 {
     int i = 0;
+    for (i = 0; i < mMaze->numCheeses; i++)
+    {
+        destroyCheese(mMaze->cheeses[i]);
+    }
+    for (i = 0; i < mMaze->numMouses; i++)
+    {
+        destroyMouse(mMaze->mouses[i]);
+    }
+    for (i = 0; i < mMaze->numCats; i++)
+    {
+        destroyCat(mMaze->cats[i]);
+    }
     destroyMaze(mMaze);
-    for (i = 0; i < numCheeses; i++)
-    {
-        destroyCheese(mCheeses[i]);
-    }
-    for (i = 0; i < numMouses; i++)
-    {
-        destroyMouse(mMouses[i]);
-    }
-    for (i = 0; i < numCats; i++)
-    {
-        destroyCat(mCats[i]);
-    }
 }
 
 void GAME_handleEvent(SDL_Event event, SDL_Context* context)
@@ -74,15 +64,9 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
             {
-                mMouses[numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                if (mMouses[numMouses] != NULL)
-                {
-                    numMouses++;
-                }
-                else
-                {
-                    error("Tab mouse");
-                }
+                mMaze->mouses[mMaze->numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                generateMouseTree(mMaze,mMaze->numMouses);
+                mMaze->numMouses++;
             }
         }
 
@@ -91,15 +75,8 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
             {
-                mCheeses[numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                if (mCheeses[numCheeses] != NULL)
-                {
-                    numCheeses++;
-                }
-                else
-                {
-                    error("Tab chesse");
-                }
+                mMaze->cheeses[mMaze->numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                mMaze->numCheeses++;
             }
         }
 
@@ -108,15 +85,8 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
             {
-                mCats[numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                if (mCats[numCats] != NULL)
-                {
-                    numCats++;
-                }
-                else
-                {
-                    error("Tab cat");
-                }
+                mMaze->cats[mMaze->numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                mMaze->numCats++;
             }
         }
     }
@@ -124,22 +94,43 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
 
 void GAME_update()
 {
+    int i = 0;
+
+    mFrameMouseCount++;
+    if (mFrameMouseCount >= 60)
+    {
+        for (i = 0; i < mMaze->numMouses; i++)
+        {
+            nextMoveMouse(mMaze,i);
+        }
+        mFrameMouseCount = 0;
+    }
+
+    mFrameCatCount++;
+    if (mFrameCatCount >= 100)
+    {
+        for (i = 0; i < mMaze->numCats; i++)
+        {
+            nextMoveCat(mMaze,i);
+        }
+        mFrameCatCount = 0;
+    }
 }
 
 void GAME_render(SDL_Renderer* renderer)
 {
     int i = 0;
     renderMaze(renderer,mMaze);
-    for (i = 0; i < numCheeses; i++)
+    for (i = 0; i < mMaze->numCheeses; i++)
     {
-        renderCheese(renderer,mCheeses[i]);
+        renderCheese(renderer,mMaze->cheeses[i]);
     }
-    for (i = 0; i < numMouses; i++)
+    for (i = 0; i < mMaze->numMouses; i++)
     {
-        renderMouse(renderer,mMouses[i]);
+        renderMouse(renderer,mMaze->mouses[i]);
     }
-    for (i = 0; i < numCats; i++)
+    for (i = 0; i < mMaze->numCats; i++)
     {
-        renderCat(renderer,mCats[i]);
+        renderCat(renderer,mMaze->cats[i]);
     }
 }

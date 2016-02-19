@@ -7,7 +7,7 @@ int ALGO2_create(SDL_Renderer* renderer)
 {
     mAlgo2Maze = createMaze(TILE_WIDTH,TILE_HEIGHT);
 
-    // TODO : error
+    // Dessiner un black screen
 }
 
 void ALGO2_destroy()

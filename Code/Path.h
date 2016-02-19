@@ -3,6 +3,11 @@
 
 #include "Structs.h"
 
+void generateMouseTree(Maze* maze, int mouseIndex);
+
+void moveToTarget(Mouse* mouse);
+void findDest(Maze* maze, Mouse* mouse);
+
 void nextMoveMouse(Maze* maze, int mouseIndex);
 void nextMoveCat(Maze* maze, int catIndex);
 

@@ -18,6 +18,14 @@ struct Coords
 };
 typedef struct Coords Coords;
 
+struct Node
+{
+    int x;
+    int y;
+    struct Node* parent;
+};
+typedef struct Node Node;
+
 struct SDL_Sprite
 {
     SDL_Texture* texture;
@@ -38,9 +46,11 @@ struct Mouse
     Coords coords;
     SDL_Sprite* sprite;
 
-    Node target;
-    Node* actualNode;
     Node nodes[400];
+    int numNodes;
+
+    Node dest;
+    Node start;
 };
 typedef struct Mouse Mouse;
 
@@ -62,17 +72,9 @@ struct Maze
     Mouse* mouses[100];
     int numMouses;
 
-    Cat* mCats[100];
+    Cat* cats[100];
     int numCats;
 };
 typedef struct Maze Maze;
-
-struct Node
-{
-    int x;
-    int y;
-    struct Node* parent;
-};
-typedef struct Node Node;
 
 #endif // SPRITE_H_INCLUDED
