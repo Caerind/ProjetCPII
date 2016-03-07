@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include "MazeGenerator.h"
 
 Maze* mAlgo1Maze = NULL;
 
@@ -10,7 +11,8 @@ int ALGO1_create(SDL_Renderer* renderer)
         error("Algo1Maze");
         return 0;
     }
-    mazeGenerator(mAlgo1Maze);
+
+    generation(mAlgo1Maze);
 
     return 1;
 }
@@ -31,7 +33,6 @@ void ALGO1_handleEvent(SDL_Event event, SDL_Context* context)
 
 void ALGO1_update()
 {
-
 }
 
 void ALGO1_render(SDL_Renderer* renderer)

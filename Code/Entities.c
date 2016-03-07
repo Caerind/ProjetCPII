@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include "Path.h"
 
 void SetCheesePosition(Cheese* cheese,int x, int y)
 {
@@ -81,9 +82,9 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
     b.parent = NULL;
 
     mouse->nodes[0] = b;
-    mouse->numNodes++;
-
-    mouse->actualNode = &mouse->nodes[0];
+    mouse->start = b;
+    mouse->dest = b;
+    mouse->numNodes = 1;
 
     return mouse;
 }

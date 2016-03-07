@@ -2,12 +2,16 @@
 
 Maze* mAlgo2Maze = NULL;
 int mAlgo2Step = 0;
+int mAlgo2FPS = 0;
 
 int ALGO2_create(SDL_Renderer* renderer)
 {
     mAlgo2Maze = createMaze(TILE_WIDTH,TILE_HEIGHT);
 
-    // TODO : error
+    generationPrep(mAlgo2Maze);
+
+    mAlgo2Step = 0;
+    mAlgo2FPS = 0;
 }
 
 void ALGO2_destroy()
@@ -22,26 +26,38 @@ void ALGO2_handleEvent(SDL_Event event, SDL_Context* context)
     {
         STATES_switch(STATE_MENU,context);
     }
+    // Generation pas à pas
     if (event.type == SDL_MOUSEBUTTONDOWN && event.button.state == SDL_PRESSED && event.button.button == SDL_BUTTON_LEFT)
     {
-        mAlgo2Step++;
-        switch (mAlgo2Step)
+        if (mAlgo2Step == 0)
         {
-            case 1: generationStep1(mAlgo2Maze); break;
-            case 2: generationStep2(mAlgo2Maze); break;
-            case 3: generationStep3(mAlgo2Maze); break;
-            case 4: generationStep4(mAlgo2Maze); break;
-            case 5: generationStep5(mAlgo2Maze); break;
-            case 6: generationStep6(mAlgo2Maze); break;
-            case 7: generationStep7(mAlgo2Maze); break;
-            default: break;
+            generationInit(mAlgo2Maze);
         }
+        else if (mAlgo2Step == 1)
+        {
+            generationStep(mAlgo2Maze);
+        }
+        mAlgo2Step++;
     }
 }
 
 void ALGO2_update()
 {
+    mAlgo2FPS++;
+    if (mAlgo2FPS >= 0)
+    {
+        mAlgo2FPS = 0;
 
+        if (mAlgo2Step == 2)
+        {
+            generationStep(mAlgo2Maze);
+            if (isFinished())
+            {
+                mAlgo2Step = 3;
+                generationFinish(mAlgo2Maze);
+            }
+        }
+    }
 }
 
 void ALGO2_render(SDL_Renderer* renderer)

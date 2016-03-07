@@ -3,27 +3,20 @@
 
 #include "Structs.h"
 
-int isNode(Maze* maze, Coords c);
-int isNodeSide(Maze* maze, Coords c);
-int isNodeMiddle(Maze* maze, Coords c);
+int isWallNode(SDL_Point p);
+int isBorder(int x, int y);
+int randomNodeInTab(Maze* maze);
+int getTabId(int x, int y);
+int getNumLinks(Maze* maze, int x, int y);
+int getDirPossibleN(int x, int y);
+int isFinished();
 
-void fillBorder(Maze* maze, int id);
-void fillNodes(Maze* maze);
+void generationPrep(Maze* maze); // Prepare the maze
+void generationInit(Maze* maze); // Initialize the maze
+void generationStep(Maze* maze); // Step++
+void generationEnding(Maze* maze); // Ending
+void generationFinish(Maze* maze); // Finish Cleaning
 
-int addLink(Maze* maze, Coords c);
-int addLinkDir(Maze* maze, Coords c, int direction);
-int isLinked(Maze* maze, Coords c, int direction);
-int linkConnected(Maze* maze, Coords c);
-int isConnected(Maze* maze, Coords c);
-
-void generationStep1(Maze* maze); // Prepare the maze
-void generationStep2(Maze* maze); // Place the begin
-void generationStep3(Maze* maze); // Place unconnected middle node
-void generationStep4(Maze* maze); // Place unconnected side node
-void generationStep5(Maze* maze); // Remove island
-void generationStep6(Maze* maze); // Correction
-void generationStep7(Maze* maze); // Finish
-
-void mazeGenerator(Maze* maze); // Generate a full maze
+void generation(Maze* maze); // Full generation
 
 #endif // MAZEGENERATOR_H_INCLUDED

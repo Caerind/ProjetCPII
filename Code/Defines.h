@@ -30,4 +30,13 @@ enum Direction
     DirCount = 4,
 };
 
+enum Blocks
+{
+    Vide = 0,
+    Mur = 1,
+    A = 2,
+    B = 3,
+    C = 4,
+};
+
 #endif // DEFINES_H_INCLUDED
