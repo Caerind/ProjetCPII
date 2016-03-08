@@ -162,7 +162,8 @@ void findTarget(Maze* maze,Mouse* mouse)//trouve la prochaine node
     Cheese* cheese = maze->cheeses[0]; // TODO : Get Nearest Cheese
     int dx = cheese->coords.x - mouse->coords.x;
     int dy = cheese->coords.y - mouse->coords.y;
-    Node tab[4];
+    Node tab[400],parent;
+    Node* par;
     int numNodesPossibilities = 0;
     // On actualise notre position de départ
     for (i = 0; i < mouse->numNodes; i++)
@@ -176,7 +177,10 @@ void findTarget(Maze* maze,Mouse* mouse)//trouve la prochaine node
     //*on trouve les enfants de cette node
     for(j = 0; j < mouse->numNodes; j++)
     {
-        if (mouse->nodes[j].parent->x == mouse->start.x && mouse->nodes[j].parent->y == mouse->start.y)
+        par=mouse->nodes[j].parent;
+        parent= *par;
+
+        if (parent.x == mouse->start.x&&parent.y==mouse->start.y)
                 {
                     tab[numNodesPossibilities] = mouse->nodes[j];
                     numNodesPossibilities++;
@@ -193,6 +197,10 @@ void findTarget(Maze* maze,Mouse* mouse)//trouve la prochaine node
 
 
     }
+    if(numNodesPossibilities==3)
+    {
+
+    }
     printf("p : %d\n",numNodesPossibilities);
 
 
@@ -204,12 +212,19 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 {
     Mouse* mouse = maze->mouses[mouseIndex];
 
-    moveToTarget(mouse); // La node de destination a été fixé et donc on y va
+    do
+    {
+        moveToTarget(mouse);
+    }while(mouse->coords.x == mouse->dest.x && mouse->coords.y == mouse->dest.y);
+
+
+     // La node de destination a été fixé et donc on y va
 
     if (mouse->coords.x == mouse->dest.x && mouse->coords.y == mouse->dest.y) // Si on est sur la node de destination
     {
-        // On doit trouver la prochaine node
         findTarget(maze,mouse);
+        // On doit trouver la prochaine node
+
 
 
 
