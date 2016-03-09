@@ -59,19 +59,19 @@ int getTabId(int x, int y)
 int getNumLinks(Maze* maze, int x, int y)
 {
     int nbl = 0;
-    if (getMazeId(maze,x,y-1) == Mur)
+    if (getMazeId(maze,x,y-1) >= Mur)
     {
         nbl++;
     }
-    if (getMazeId(maze,x-1,y) == Mur)
+    if (getMazeId(maze,x-1,y) >= Mur)
     {
         nbl++;
     }
-    if (getMazeId(maze,x,y+1) == Mur)
+    if (getMazeId(maze,x,y+1) >= Mur)
     {
         nbl++;
     }
-    if (getMazeId(maze,x+1,y) == Mur)
+    if (getMazeId(maze,x+1,y) >= Mur)
     {
         nbl++;
     }
@@ -158,7 +158,7 @@ void generationInit(Maze* maze)
     {
         px1.x = randomInt(3,maze->size.x - 5);
     } while (!isWallNode(px1.x,px1.y));
-    setMazeId(maze,px1.x,px1.y,A);
+    setMazeId(maze,px1.x,px1.y,MurC);
     setMazeId(maze,px1.x,px1.y-1,Mur);
 
     // Take a random node on the bottom axe
@@ -167,7 +167,7 @@ void generationInit(Maze* maze)
     {
         px2.x = randomInt(3,maze->size.x - 5);
     } while (!isWallNode(px2.x,px2.y));
-    setMazeId(maze,px2.x,px2.y,A);
+    setMazeId(maze,px2.x,px2.y,MurC);
     setMazeId(maze,px2.x,px2.y+1,Mur);
 
     // Take a random node on the left axe
@@ -176,7 +176,7 @@ void generationInit(Maze* maze)
     {
         py1.y = randomInt(1,maze->size.y - 3);
     } while (!isWallNode(py1.x,py1.y));
-    setMazeId(maze,py1.x,py1.y,A);
+    setMazeId(maze,py1.x,py1.y,MurC);
     setMazeId(maze,py1.x-1,py1.y,Mur);
 
     // Take a random node on the right axe
@@ -185,7 +185,7 @@ void generationInit(Maze* maze)
     {
         py2.y = randomInt(1,maze->size.y - 3);
     } while (!isWallNode(py2.x,py2.y));
-    setMazeId(maze,py2.x,py2.y,A);
+    setMazeId(maze,py2.x,py2.y,MurC);
     setMazeId(maze,py2.x+1,py2.y,Mur);
 
     // Add the node to the tab
@@ -218,7 +218,7 @@ void generationStep(Maze* maze)
         if (id >= 0) // Si on a une id valide
         {
             SDL_Point p = gen_tab[id];
-            setMazeId(maze,p.x,p.y,C);
+            setMazeId(maze,p.x,p.y,MurB);
 
             // On obtient le nombre de node non connectée accessible depuis ce point
             int dirPossibleT[4];
@@ -255,28 +255,28 @@ void generationStep(Maze* maze)
                     if (r == North)
                     {
                         setMazeId(maze,p.x,p.y-1,Mur);
-                        setMazeId(maze,p.x,p.y-2,B);
+                        setMazeId(maze,p.x,p.y-2,MurA);
                         gen_tab[gen_numPoints].x = p.x;
                         gen_tab[gen_numPoints].y = p.y-2;
                     }
                     if (r == West)
                     {
                         setMazeId(maze,p.x-1,p.y,Mur);
-                        setMazeId(maze,p.x-2,p.y,B);
+                        setMazeId(maze,p.x-2,p.y,MurA);
                         gen_tab[gen_numPoints].x = p.x-2;
                         gen_tab[gen_numPoints].y = p.y;
                     }
                     if (r == South)
                     {
                         setMazeId(maze,p.x,p.y+1,Mur);
-                        setMazeId(maze,p.x,p.y+2,B);
+                        setMazeId(maze,p.x,p.y+2,MurA);
                         gen_tab[gen_numPoints].x = p.x;
                         gen_tab[gen_numPoints].y = p.y+2;
                     }
                     if (r == East)
                     {
                         setMazeId(maze,p.x+1,p.y,Mur);
-                        setMazeId(maze,p.x+2,p.y,B);
+                        setMazeId(maze,p.x+2,p.y,MurA);
                         gen_tab[gen_numPoints].x = p.x+2;
                         gen_tab[gen_numPoints].y = p.y;
                     }
@@ -328,7 +328,7 @@ void generationEnding(Maze* maze)
 
     printf("...\n");
 
-    k = randomInt(North,East); // TODO : May block important path
+    k = randomInt(North,East);
     if (k == North)
     {
         setMazeId(maze,i,j-1,Mur);
@@ -346,7 +346,7 @@ void generationEnding(Maze* maze)
         setMazeId(maze,i+1,j,Mur);
     }
 
-    setMazeId(maze,i,j,C);
+    setMazeId(maze,i,j,Mur);
 
     gen_tab[gen_numPoints].x = i;
     gen_tab[gen_numPoints].y = j;
@@ -360,9 +360,13 @@ void generationFinish(Maze* maze)
     {
         for (j = 0; j < maze->size.y; j++)
         {
-            if (getMazeId(maze,i,j) > Mur)
+            if (getMazeId(maze,i,j) >= Mur)
             {
-                setMazeId(maze,i,j,Mur);
+                setMazeId(maze,i,j,randomInt(MurA,MurF));
+            }
+            else
+            {
+                setMazeId(maze,i,j,randomInt(A,D));
             }
         }
     }

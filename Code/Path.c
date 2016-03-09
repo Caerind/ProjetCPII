@@ -49,7 +49,7 @@ void generateMouseTree(Maze* maze, int mouseIndex)
             if (j == South){wall.y++;}
             if (j == East){wall.x++;}
 
-            if (test == 0 && getMazeId(maze,wall.x,wall.y) != Mur) // Non contenu et pas mur
+            if (test == 0 && getMazeId(maze,wall.x,wall.y) < Mur) // Non contenu et pas mur
             {
                 // Si c'est bon on ajoute dans la liste des noeuds
                 mouse->nodes[i] = node;
@@ -119,7 +119,7 @@ void findDest(Maze* maze, Mouse* mouse)
         if (j == South){wall.y++;}
         if (j == East){wall.x++;}
 
-        if (getMazeId(maze,wall.x,wall.y) != Mur) // pas mur
+        if (getMazeId(maze,wall.x,wall.y) < Mur) // pas mur
         {
             // On paramètre la destination possible
             coords.x = mouse->start.x;

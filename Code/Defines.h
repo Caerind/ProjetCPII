@@ -33,10 +33,17 @@ enum Direction
 enum Blocks
 {
     Vide = 0,
-    Mur = 1,
-    A = 2,
-    B = 3,
-    C = 4,
+    A = 1,
+    B = 2,
+    C = 3,
+    D = 4,
+    Mur = 5,
+    MurA = 6,
+    MurB = 7,
+    MurC = 8,
+    MurD = 9,
+    MurE = 10,
+    MurF = 11,
 };
 
 #endif // DEFINES_H_INCLUDED
