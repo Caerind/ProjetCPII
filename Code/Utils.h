@@ -41,6 +41,9 @@ void SDL_RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int 
 // Load Sprite with texture
 SDL_Sprite* SDL_CreateSprite(const char* file, SDL_Renderer* renderer);
 
+// Load Sprite with texture and enable transparency
+SDL_Sprite* SDL_CreateSpriteTransparency(const char* file, SDL_Renderer* renderer, int r, int g, int b);
+
 // Destroy Sprite
 void SDL_DestroySprite(SDL_Sprite* sprite);
 

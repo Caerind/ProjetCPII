@@ -16,7 +16,7 @@ int MENU_create(SDL_Renderer* renderer)
 
     for (i = 0; i < 4; i++)
     {
-        mButtons[i] = SDL_CreateSprite("Assets/boutons.bmp",renderer);
+        mButtons[i] = SDL_CreateSpriteTransparency("Assets/boutons.bmp",renderer,255,0,255);
         if (mButtons[i] == NULL)
         {
             error("ButtonMenu");

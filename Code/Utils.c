@@ -118,6 +118,38 @@ SDL_Sprite* SDL_CreateSprite(const char* file, SDL_Renderer* renderer)
     return sprite;
 }
 
+SDL_Sprite* SDL_CreateSpriteTransparency(const char* file, SDL_Renderer* renderer, int r, int g, int b)
+{
+    SDL_Sprite* sprite = NULL;
+
+    sprite = malloc(sizeof(SDL_Sprite)); // Allocation de la mémoire
+    if (sprite == NULL)
+    {
+        error("Mauvaise alloc");
+        return NULL;
+    }
+
+	SDL_Surface* loadedImage = SDL_LoadBMP(file);
+	if (loadedImage != NULL)
+    {
+        SDL_SetColorKey(loadedImage,SDL_TRUE,SDL_MapRGB(loadedImage->format,r,g,b));
+		sprite->texture = SDL_CreateTextureFromSurface(renderer,loadedImage);
+		SDL_FreeSurface(loadedImage);
+	}
+	else
+	{
+		errorSDL("LoadBMP_Transparency");
+	}
+
+    sprite->pos.x = 0;
+    sprite->pos.y = 0;
+    sprite->rect.x = 0;
+    sprite->rect.y = 0;
+    SDL_QueryTexture(sprite->texture, NULL, NULL, &sprite->rect.w, &sprite->rect.h);
+
+    return sprite;
+}
+
 void SDL_DestroySprite(SDL_Sprite* sprite)
 {
     SDL_DestroyTexture(sprite->texture);

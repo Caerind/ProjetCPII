@@ -26,7 +26,7 @@ Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    cheese->sprite=SDL_CreateSprite("Assets/fromage.bmp",renderer);
+    cheese->sprite = SDL_CreateSpriteTransparency("Assets/fromage.bmp",renderer,255,0,255);
 
     SetCheesePosition(cheese,x,y);
 
@@ -73,7 +73,8 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    mouse->sprite=SDL_CreateSprite("Assets/souris.bmp",renderer);
+    mouse->sprite = SDL_CreateSpriteTransparency("Assets/souris.bmp",renderer,255,0,255);
+    mouse->sprite->rect.w = 32;
 
     SetMousePosition(mouse,x,y);
 
