@@ -62,7 +62,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         // Left
         if (event.button.button == SDL_BUTTON_LEFT)
         {
-            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
+            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 6)
             {
                 mMaze->mouses[mMaze->numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
                 generateMouseTree(mMaze,mMaze->numMouses);
@@ -73,7 +73,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         // Right
         if (event.button.button == SDL_BUTTON_RIGHT)
         {
-            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
+            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 6)
             {
                 mMaze->cheeses[mMaze->numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
                 mMaze->numCheeses++;
@@ -83,7 +83,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         // Middle
         if (event.button.button == SDL_BUTTON_MIDDLE)
         {
-            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 1)
+            if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) != 6)
             {
                 mMaze->cats[mMaze->numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
                 mMaze->numCats++;

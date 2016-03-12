@@ -22,7 +22,8 @@ struct Node
 {
     int x;
     int y;
-    struct Node* parent;
+    struct Coords parent;
+    int test;// test = 0, la node n'est pas encore priss
 };
 typedef struct Node Node;
 
@@ -51,6 +52,9 @@ struct Mouse
 
     Node dest;
     Node start;
+
+    Node hesitation[100];
+    int numHesi;
 };
 typedef struct Mouse Mouse;
 
