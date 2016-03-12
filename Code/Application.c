@@ -12,7 +12,7 @@ int init()
     srand(time(NULL));
 
     // Initialisation de la SDL (Module Vidéo)
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO| SDL_INIT_AUDIO) != 0)
     {
         errorSDL("Init");
         return -1;

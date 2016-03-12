@@ -5,6 +5,8 @@
 #include "States.h"
 #include "Path.h"
 
+#include <SDL2/SDL_mixer.h>
+
 Maze* mMaze = NULL;
 int mFrameMouseCount = 0;
 int mFrameCatCount = 0;
@@ -97,7 +99,7 @@ void GAME_update()
     int i = 0;
 
     mFrameMouseCount++;
-    if (mFrameMouseCount >= 60)
+    if (mFrameMouseCount >= 10)
     {
         for (i = 0; i < mMaze->numMouses; i++)
         {
@@ -107,7 +109,7 @@ void GAME_update()
     }
 
     mFrameCatCount++;
-    if (mFrameCatCount >= 100)
+    if (mFrameCatCount >= 20)
     {
         for (i = 0; i < mMaze->numCats; i++)
         {

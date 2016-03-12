@@ -3,6 +3,7 @@
 Maze* mAlgo2Maze = NULL;
 int mAlgo2Step = 0;
 int mAlgo2FPS = 0;
+int mAlgo2Play = 0;
 
 int ALGO2_create(SDL_Renderer* renderer)
 {
@@ -12,6 +13,7 @@ int ALGO2_create(SDL_Renderer* renderer)
 
     mAlgo2Step = 0;
     mAlgo2FPS = 0;
+    mAlgo2Play = 0;
 }
 
 void ALGO2_destroy()
@@ -32,12 +34,18 @@ void ALGO2_handleEvent(SDL_Event event, SDL_Context* context)
         if (mAlgo2Step == 0)
         {
             generationInit(mAlgo2Maze);
+            mAlgo2Play = 1;
+            mAlgo2Step++;
         }
         else if (mAlgo2Step == 1)
         {
             generationStep(mAlgo2Maze);
+            mAlgo2Step++;
         }
-        mAlgo2Step++;
+        else if (mAlgo2Step == 2)
+        {
+            mAlgo2Play = (mAlgo2Play == 0) ? 1 : 0;
+        }
     }
 }
 
@@ -48,7 +56,7 @@ void ALGO2_update()
     {
         mAlgo2FPS = 0;
 
-        if (mAlgo2Step == 2)
+        if (mAlgo2Step == 2 && mAlgo2Play == 1)
         {
             generationStep(mAlgo2Maze);
             if (isFinished())
