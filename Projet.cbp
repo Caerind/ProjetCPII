@@ -36,6 +36,7 @@
 			<Add library="libmingw32.a" />
 			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2main.a" />
 			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2.dll.a" />
+			<Add library="SDL2\i686-w64-mingw32\lib\libSDL2_mixer.a" />
 			<Add directory="SDL2/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="Code/Algo1.c">
