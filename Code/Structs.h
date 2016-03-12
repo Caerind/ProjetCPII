@@ -53,8 +53,6 @@ struct Mouse
     Node dest;
     Node start;
 
-    Node hesitation[100];
-    int numHesi;
 };
 typedef struct Mouse Mouse;
 

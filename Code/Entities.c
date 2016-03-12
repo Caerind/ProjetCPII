@@ -81,10 +81,10 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
     b.x = x;
     b.y = y;
 
-    mouse->nodes[0] = b;
+    /*mouse->nodes[0] = b;
     mouse->start = b;
     mouse->dest = b;
-    mouse->numNodes = 1;
+    mouse->numNodes = 1;*/
 
     return mouse;
 }
