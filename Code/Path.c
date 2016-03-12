@@ -10,12 +10,38 @@ void generateMouseTree(Maze* maze, int mouseIndex)
 
     // On part de la position initiale de la souris
     // TODO : Actually we assume that the mouse in on a node
-
     node.x = mouse->coords.x;
     node.y = mouse->coords.y;
     node.test = 0;
     mouse->nodes[0] = node;
     mouse->numNodes = 1;
+
+    if(mouse->coords.x%2==0||mouse->coords.y%2==0)//si les souris ne sont pas initialement dans les nodes
+    {
+        i++;
+        parent.x = node.x;
+        parent.y = node.y;
+        node.parent = parent;
+        if(mouse->coords.x%2==0&&mouse->coords.y%2==0)
+        {
+           node.x=node.x-1;
+           node.y=node.y-1;
+        }
+        if(mouse->coords.x%2==0&&mouse->coords.y%2==1)
+        {
+            node.x=node.x-1;
+            node.y=node.y;
+        }
+        if(mouse->coords.x%2==1&&mouse->coords.y%2==0)
+        {
+            node.x=node.x;
+            node.y=node.y-1;
+        }
+        mouse->nodes[mouse->numNodes]=node;
+        mouse->numNodes++;
+    }
+
+
 
     // On crée le labyrinthe
     do
