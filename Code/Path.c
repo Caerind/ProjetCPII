@@ -3,7 +3,7 @@
 
 void generateMouseTree(Maze* maze, int mouseIndex)
 {
-    int i=0,j,k,test;
+    int i=0,j,k,test,h;
     Coords wall,parent;
     Node node;
     Mouse* mouse = maze->mouses[mouseIndex];
@@ -24,8 +24,8 @@ void generateMouseTree(Maze* maze, int mouseIndex)
         node.parent = parent;
         if(mouse->coords.x%2==0&&mouse->coords.y%2==0)
         {
-           node.x=node.x-1;
-           node.y=node.y-1;
+            node.x=node.x-1;
+            node.y=node.y-1;
         }
         if(mouse->coords.x%2==0&&mouse->coords.y%2==1)
         {
@@ -102,6 +102,7 @@ void generateMouseTree(Maze* maze, int mouseIndex)
                 {
                     wall.x++;
                 }
+
 
                 if (test == 0 && getMazeId(maze,wall.x,wall.y) < Mur) // Non contenu et pas mur
                 {
@@ -408,14 +409,40 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
 void nextMoveMouse(Maze* maze, int mouseIndex)
 {
     Mouse* mouse = maze->mouses[mouseIndex];
+    int test=0,chat=0;
+    int i,j;
+    Coords cat;
     // La node de destination a été fixé et donc on y va
-    moveToTarget(mouse);
-    if (mouse->coords.x == mouse->dest.x && mouse->coords.y == mouse->dest.y) // Si on est sur la node de destination
-    {
 
-        if(mouse->coords.x!=maze->cheeses[0]->coords.x||mouse->coords.y!=maze->cheeses[0]->coords.y)// si on n'a pas encore trouver le fromage
+
+    for(i = 0; i < maze->numCheeses; i++)
+    {
+        if(mouse->coords.x==maze->cheeses[i]->coords.x&&mouse->coords.y==maze->cheeses[i]->coords.y)
+            test=1;
+    }
+
+
+
+    if(test==0) // si on n'a pas encore trouver le fromage
+    {
+        for(j=0;j<maze->numCats;j++)
         {
-            findTarget(maze,mouse);
+            cat = GetCatPosition(maze->cats[j]);
+            if(mouse->dest.x==cat.x&&mouse->dest.y==cat.y)
+            {
+                chat=1;
+            }
+        }
+
+        if(chat=0)
+        {
+            moveToTarget(mouse);
+        }
+
+
+        if (mouse->coords.x == mouse->dest.x && mouse->coords.y == mouse->dest.y) // Si on est sur la node de destination
+        {
+                     findTarget(maze,mouse);
         }
 
         // On doit trouver la prochaine node
