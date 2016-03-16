@@ -13,12 +13,14 @@ int mFrameCatCount = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {
-    mMaze = loadMazeFromFile("Assets/maze.xmaze");
+    mMaze = createMaze(TILE_WIDTH,TILE_HEIGHT);
     if (mMaze == NULL)
     {
         error("Maze");
         return 0;
     }
+
+    generation(mMaze);
 
     mMaze->cheeses[mMaze->numCheeses] = createCheese(1,1,renderer);
     mMaze->numCheeses++;
@@ -99,7 +101,7 @@ void GAME_update()
     int i = 0;
 
     mFrameMouseCount++;
-    if (mFrameMouseCount >= 10)
+    if (mFrameMouseCount >= 8)
     {
         for (i = 0; i < mMaze->numMouses; i++)
         {
@@ -109,7 +111,7 @@ void GAME_update()
     }
 
     mFrameCatCount++;
-    if (mFrameCatCount >= 20)
+    if (mFrameCatCount >= 14)
     {
         for (i = 0; i < mMaze->numCats; i++)
         {
