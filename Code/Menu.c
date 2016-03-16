@@ -2,6 +2,8 @@
 
 SDL_Sprite* mBackgroundMenu = NULL;
 SDL_Sprite* mButtons[4];
+SDL_Sprite* mLogoEsig;
+SDL_Sprite* mEsig;
 
 int MENU_create(SDL_Renderer* renderer)
 {
@@ -30,6 +32,14 @@ int MENU_create(SDL_Renderer* renderer)
         mButtons[i]->rect.h = 92;
     }
 
+    mLogoEsig = SDL_CreateSprite("Assets/logo-esigelec.bmp",renderer);
+    mLogoEsig->pos.x = 800 - 100;
+    mLogoEsig->pos.y = 608 - 100;
+
+    mEsig = SDL_CreateSprite("Assets/esigelec.bmp",renderer);
+    mEsig->pos.x = 0;
+    mEsig->pos.y = 608 - 50;
+
     return 1;
 }
 
@@ -41,6 +51,8 @@ void MENU_destroy()
         SDL_DestroySprite(mButtons[i]);
     }
     SDL_DestroySprite(mBackgroundMenu);
+    SDL_DestroySprite(mLogoEsig);
+    SDL_DestroySprite(mEsig);
 }
 
 void MENU_handleEvent(SDL_Event event, SDL_Context* context)
@@ -95,4 +107,6 @@ void MENU_render(SDL_Renderer* renderer)
     {
         SDL_RenderSprite(renderer,mButtons[i]);
     }
+    SDL_RenderSprite(renderer,mLogoEsig);
+    SDL_RenderSprite(renderer,mEsig);
 }
