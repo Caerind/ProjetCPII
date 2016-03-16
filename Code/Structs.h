@@ -7,6 +7,7 @@ struct SDL_Context
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_Surface* icon;
     int isOpen;
 };
 typedef struct SDL_Context SDL_Context;

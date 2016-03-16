@@ -18,18 +18,18 @@ int MENU_create(SDL_Renderer* renderer)
 
     for (i = 0; i < 4; i++)
     {
-        mButtons[i] = SDL_CreateSpriteTransparency("Assets/boutons.bmp",renderer,255,0,255);
+        mButtons[i] = SDL_CreateSpriteTransparency("Assets/buttons.bmp",renderer,255,0,255);
         if (mButtons[i] == NULL)
         {
             error("ButtonMenu");
             return 0;
         }
-        mButtons[i]->pos.x = SCREEN_WIDTH / 2 - 160;
-        mButtons[i]->pos.y = 125 + 100 * i;
+        mButtons[i]->pos.x = SCREEN_WIDTH / 2 - 110;
+        mButtons[i]->pos.y = 175 + 90 * i;
         mButtons[i]->rect.x = 0;
-        mButtons[i]->rect.y = 92 * i;
-        mButtons[i]->rect.w = 320;
-        mButtons[i]->rect.h = 92;
+        mButtons[i]->rect.y = 80 * i;
+        mButtons[i]->rect.w = 220;
+        mButtons[i]->rect.h = 80;
     }
 
     mLogoEsig = SDL_CreateSprite("Assets/logo-esigelec.bmp",renderer);
@@ -90,7 +90,7 @@ void MENU_update()
         r = SDL_GetSpriteRect(mButtons[i]);
         if (SDL_PointInRect(&p,&r))
         {
-            mButtons[i]->rect.x = 320;
+            mButtons[i]->rect.x = 220;
         }
         else
         {

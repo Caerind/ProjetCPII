@@ -44,6 +44,11 @@ SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY)
         return NULL;
     }
 
+    // Icon
+    context->icon = SDL_LoadBMP("Assets/icon.bmp");
+    SDL_SetColorKey(context->icon,SDL_TRUE,SDL_MapRGB(context->icon->format,255,0,255));
+    SDL_SetWindowIcon(context->window,context->icon);
+
     return context;
 }
 

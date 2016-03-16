@@ -127,7 +127,7 @@ Cat* createCat(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    cat->sprite=SDL_CreateSprite("Assets/chat.bmp",renderer);
+    cat->sprite=SDL_CreateSpriteTransparency("Assets/chat.bmp",renderer,255,0,255);
 
     SetCatPosition(cat,x,y);
 

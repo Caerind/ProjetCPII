@@ -26,9 +26,6 @@ int init()
         return -1;
     }
 
-    // Icon
-    SDL_SetWindowIcon(mContext->window,SDL_LoadBMP("Assets/icon.bmp"));
-
     // Chargement du menu
     STATES_switch(STATE_MENU,mContext);
 
