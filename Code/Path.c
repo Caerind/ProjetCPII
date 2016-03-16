@@ -424,40 +424,59 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
     if(test==0) // si on n'a pas encore trouver le fromage
     {
-        for(j=0;j<maze->numCats;j++)
+        for(j=0; j<maze->numCats; j++)
         {
-            if(maze->cats[j]->coords.x==mouse->coords.x+2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x+1,mouse->coords.y) < Mur)
+            if(mouse->dest.x>mouse->coords.x)
             {
-                chat=1;
+                if(maze->cats[j]->coords.x==mouse->coords.x+2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x+1,mouse->coords.y) < Mur)
+                {
+                    chat=1;
+                }
+                if(maze->cats[j]->coords.x==mouse->coords.x+1&&mouse->coords.y==maze->cats[j]->coords.y)
+                {
+                    chat=1;
+                }
             }
-            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+2&&getMazeId(maze,mouse->coords.x,mouse->coords.y+1) < Mur)
+
+
+            if(mouse->dest.y>mouse->coords.y)
             {
-                chat=1;
+                if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+2&&getMazeId(maze,mouse->coords.x,mouse->coords.y+1) < Mur)
+                {
+                    chat=1;
+                }
+                if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+1)
+                {
+                    chat=1;
+                }
             }
-            if(maze->cats[j]->coords.x==mouse->coords.x-2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x-1,mouse->coords.y) < Mur)
+
+            if(mouse->dest.x<mouse->coords.x)
             {
-                chat=1;
+                if(maze->cats[j]->coords.x==mouse->coords.x-2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x-1,mouse->coords.y) < Mur)
+                {
+                    chat=1;
+                }
+                if(maze->cats[j]->coords.x==mouse->coords.x-1&&mouse->coords.y==maze->cats[j]->coords.y)
+                {
+                    chat=1;
+                }
             }
-            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-2&&getMazeId(maze,mouse->coords.x,mouse->coords.y-1) < Mur)
+
+            if(mouse->dest.y<mouse->coords.y)
             {
-                chat=1;
+                if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-2&&getMazeId(maze,mouse->coords.x,mouse->coords.y-1) < Mur)
+                {
+                    chat=1;
+                }
+                if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-1)
+                {
+                    chat=1;
+                }
             }
-             if(maze->cats[j]->coords.x==mouse->coords.x+1&&mouse->coords.y==maze->cats[j]->coords.y)
-            {
-                chat=1;
-            }
-            if(maze->cats[j]->coords.x==mouse->coords.x-1&&mouse->coords.y==maze->cats[j]->coords.y)
-            {
-                chat=1;
-            }
-            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+1)
-            {
-                chat=1;
-            }
-            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-1)
-            {
-                chat=1;
-            }
+
+
+
 
 
 
@@ -471,7 +490,7 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
         if (mouse->coords.x == mouse->dest.x && mouse->coords.y == mouse->dest.y) // Si on est sur la node de destination
         {
-                     findTarget(maze,mouse);
+            findTarget(maze,mouse);
         }
 
         // On doit trouver la prochaine node
