@@ -411,7 +411,6 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
     Mouse* mouse = maze->mouses[mouseIndex];
     int test=0,chat=0;
     int i,j;
-    Coords cat;
     // La node de destination a été fixé et donc on y va
 
 
@@ -427,14 +426,44 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
     {
         for(j=0;j<maze->numCats;j++)
         {
-            cat = GetCatPosition(maze->cats[j]);
-            if(mouse->dest.x==cat.x&&mouse->dest.y==cat.y)
+            if(maze->cats[j]->coords.x==mouse->coords.x+2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x+1,mouse->coords.y) < Mur)
             {
                 chat=1;
             }
+            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+2&&getMazeId(maze,mouse->coords.x,mouse->coords.y+1) < Mur)
+            {
+                chat=1;
+            }
+            if(maze->cats[j]->coords.x==mouse->coords.x-2&&mouse->coords.y==maze->cats[j]->coords.y&&getMazeId(maze,mouse->coords.x-1,mouse->coords.y) < Mur)
+            {
+                chat=1;
+            }
+            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-2&&getMazeId(maze,mouse->coords.x,mouse->coords.y-1) < Mur)
+            {
+                chat=1;
+            }
+             if(maze->cats[j]->coords.x==mouse->coords.x+1&&mouse->coords.y==maze->cats[j]->coords.y)
+            {
+                chat=1;
+            }
+            if(maze->cats[j]->coords.x==mouse->coords.x-1&&mouse->coords.y==maze->cats[j]->coords.y)
+            {
+                chat=1;
+            }
+            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y+1)
+            {
+                chat=1;
+            }
+            if(maze->cats[j]->coords.x==mouse->coords.x&&mouse->coords.y==maze->cats[j]->coords.y-1)
+            {
+                chat=1;
+            }
+
+
+
         }
 
-        if(chat=0)
+        if(chat==0)
         {
             moveToTarget(mouse);
         }
