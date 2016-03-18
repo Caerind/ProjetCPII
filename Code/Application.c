@@ -30,11 +30,23 @@ int init()
         return -1;
     }
 
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+    {
+        return -1;
+    }
+
     // On charge et on joue la musique
     music = Mix_LoadMUS("Assets/theme.ogg");
     if (music != NULL)
     {
-        Mix_PlayMusic(music,-1);
+        if (Mix_PlayMusic(music,-1) == -1)
+        {
+            printf("Mix_PlayMusic: %s\n", Mix_GetError());
+        }
+    }
+    else
+    {
+        printf("Mix_LoadMUS: %s\n", Mix_GetError());
     }
 
     // Chargement du menu
