@@ -25,7 +25,7 @@ int MENU_create(SDL_Renderer* renderer)
             return 0;
         }
         mButtons[i]->pos.x = SCREEN_WIDTH / 2 - 110;
-        mButtons[i]->pos.y = 175 + 90 * i;
+        mButtons[i]->pos.y = 210 + 90 * i;
         mButtons[i]->rect.x = 0;
         mButtons[i]->rect.y = 80 * i;
         mButtons[i]->rect.w = 220;

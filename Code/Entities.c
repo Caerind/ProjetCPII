@@ -73,7 +73,7 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    mouse->sprite = SDL_CreateSpriteTransparency("Assets/souris.bmp",renderer,255,0,255);
+    mouse->sprite = SDL_CreateSpriteTransparency("Assets/jerry.bmp",renderer,255,0,255);
     mouse->sprite->rect.w = 32;
 
     SetMousePosition(mouse,x,y);
@@ -127,7 +127,7 @@ Cat* createCat(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    cat->sprite=SDL_CreateSpriteTransparency("Assets/chat.bmp",renderer,255,0,255);
+    cat->sprite = SDL_CreateSpriteTransparency("Assets/tom.bmp",renderer,255,0,255);
 
     SetCatPosition(cat,x,y);
 

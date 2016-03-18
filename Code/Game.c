@@ -5,8 +5,6 @@
 #include "States.h"
 #include "Path.h"
 
-#include <SDL2/SDL_mixer.h>
-
 Maze* mMaze = NULL;
 int mFrameMouseCount = 0;
 int mFrameCatCount = 0;
