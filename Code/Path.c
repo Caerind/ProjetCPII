@@ -126,6 +126,131 @@ void generateMouseTree(Maze* maze, int mouseIndex)
 
 }
 
+
+
+/*void generateCatTree(Maze* maze, int catIndex)
+{
+    int i=0,j,k,test,h;
+
+    Coords wall,parent;
+    Node node;
+    Cat* cat = maze->cats[catIndex];
+
+    // On part de la position initiale du chat
+
+    node.x = cat->coords.x;
+    node.y = cat->coords.y;
+    node.test = 0;
+    cat->nodes[0] = node;
+    cat->numNodes = 1;
+
+    if(cat->coords.x%2==0||cat->coords.y%2==0)//si les souris ne sont pas initialement dans les nodes
+    {
+        i++;
+        parent.x = node.x;
+        parent.y = node.y;
+        node.parent = parent;
+        if(cat->coords.x%2==0&&cat->coords.y%2==0)
+        {
+            node.x=node.x-1;
+            node.y=node.y-1;
+        }
+        if(cat->coords.x%2==0&&cat->coords.y%2==1)
+        {
+            node.x=node.x-1;
+            node.y=node.y;
+        }
+        if(cat->coords.x%2==1&&cat->coords.y%2==0)
+        {
+            node.x=node.x;
+            node.y=node.y-1;
+        }
+        cat->nodes[cat->numNodes]=node;
+        cat->numNodes++;
+    }
+
+
+
+    // On crée le labyrinthe
+    do
+    {
+        // On définit le parent
+        parent.x = cat->nodes[i].x;
+        parent.y = cat->nodes[i].y;
+        for (j = 0; j < 4; j++)
+        {
+            // On crée la node enfant
+            node.parent = parent;
+            node.x = parent.x;
+            node.y = parent.y;
+            if (j == North)
+            {
+                node.y -= 2;
+            }
+            if (j == West)
+            {
+                node.x -= 2;
+            }
+            if (j == South)
+            {
+                node.y += 2;
+            }
+            if (j == East)
+            {
+                node.x += 2;
+            }
+            //on teste si elle est dans le labyrinth
+            if(node.y>=0 && node.y<=17 && node.x>=0 && node.x<=23)
+            {
+                // On teste si elle existe deja
+                test = 0; // Non contenu
+                for (k = 0; k < cat->numNodes; k++)
+                {
+                    if (cat->nodes[k].x == node.x && cat->nodes[k].y == node.y)
+                    {
+                        test = 1; // Contenu -> Donc on ajoutera pas
+                    }
+                }
+                // On teste si on a un mur sur le chemin
+                wall.x = parent.x;
+                wall.y = parent.y;
+                if (j == North)
+                {
+                    wall.y--;
+                }
+                if (j == West)
+                {
+                    wall.x--;
+                }
+                if (j == South)
+                {
+                    wall.y++;
+                }
+                if (j == East)
+                {
+                    wall.x++;
+                }
+
+
+                if (test == 0 && getMazeId(maze,wall.x,wall.y) < Mur) // Non contenu et pas mur
+                {
+                    // Si c'est bon on ajoute dans la liste des noeuds
+                    cat->nodes[cat->numNodes] = node;
+                    cat->nodes[cat->numNodes].test=0;
+                    cat->numNodes++;
+                }
+            }
+
+        }
+        i++;
+    }
+    while(i<=cat->numNodes);
+
+}*/
+
+
+
+
 void moveToTarget(Mouse* mouse)
 {
     // Descendre
@@ -147,6 +272,31 @@ void moveToTarget(Mouse* mouse)
     if (mouse->coords.x > mouse->dest.x && mouse->coords.y == mouse->dest.y)
     {
         SetMousePosition(mouse,mouse->coords.x - 1,mouse->coords.y);
+    }
+}
+
+
+void moveToMouse(Cat* cat)
+{
+    // Descendre
+    if (cat->coords.x == cat->dest.x && cat->coords.y < cat->dest.y)
+    {
+        SetCatPosition(cat,cat->coords.x,cat->coords.y + 1);
+    }
+    // Monter
+    if (cat->coords.x == cat->dest.x && cat->coords.y > cat->dest.y)
+    {
+        SetCatPosition(cat,cat->coords.x,cat->coords.y - 1);
+    }
+    // Droite
+    if (cat->coords.x < cat->dest.x && cat->coords.y == cat->dest.y)
+    {
+        SetCatPosition(cat,cat->coords.x + 1,cat->coords.y);
+    }
+    // Gauche
+    if (cat->coords.x > cat->dest.x && cat->coords.y == cat->dest.y)
+    {
+        SetCatPosition(cat,cat->coords.x - 1,cat->coords.y);
     }
 }
 
@@ -410,13 +560,21 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 {
     Mouse* mouse = maze->mouses[mouseIndex];
     int test = 0,chat = 0;
-    int i,j;
+    int i,j,k;
     // La node de destination a été fixé et donc on y va
 
     //on test si le souris obtient le fromage
     for(i = 0; i < maze->numCheeses; i++)
     {
         if(mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
+        {
+            test = 1;
+        }
+    }
+    //on test si le souris ranvontre le chat
+    for(i = 0; i < maze->numCats; i++)
+    {
+        if(mouse->coords.x == maze->cats[i]->coords.x && mouse->coords.y == maze->cats[i]->coords.y)
         {
             test = 1;
         }
@@ -505,6 +663,28 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
             }
         }
 
+        if(chat==1)//si le souris va renvontrer le chat, il retourne
+        {
+
+            for(k = 0; k < mouse->numNodes; k++)//on ouvre tous les chemins fermés sauf celui de node actuel
+            {
+                if(mouse->nodes[k].x != mouse->dest.x && mouse->nodes[k].y != mouse->dest.y)
+                {
+                    mouse->nodes[k].test = 0;
+                }
+            }
+
+            //on trouve le parent de mouse->dest
+            for(k = 0; k < mouse->numNodes; k++)
+            {
+                if (mouse->nodes[k].x == mouse->dest.parent.x && mouse->nodes[k].y == mouse->dest.parent.y)
+                {
+                    mouse->dest = mouse->nodes[k];
+                }
+            }
+            chat=0;
+        }
+
         if(chat==0)
         {
             moveToTarget(mouse);
@@ -515,7 +695,6 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
         {
             findTarget(maze,mouse);
         }
-
         // On doit trouver la prochaine node
         /*
         int dirP[4];
@@ -578,5 +757,214 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
 void nextMoveCat(Maze* maze, int catIndex)
 {
+    Cat *chat = maze->cats[catIndex];
 
-}
+    int i,souris=0;
+
+    //on test si il y a un souris a cote de chat
+    for(i = 0; i < maze->numMouses; i++)
+    {
+
+        if(maze->mouses[i]->coords.x == chat->coords.x+2 && maze->mouses[i]->coords.y == chat->coords.y && getMazeId(maze,chat->coords.x+1,chat->coords.y)< Mur)
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=East;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x-2 && maze->mouses[i]->coords.y == chat->coords.y && getMazeId(maze,chat->coords.x-1,chat->coords.y)< Mur)
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=West;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+2 && getMazeId(maze,chat->coords.x,chat->coords.y+1)< Mur)
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=South;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-2 && getMazeId(maze,chat->coords.x,chat->coords.y-1)< Mur)
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=North;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x+1 && maze->mouses[i]->coords.y == chat->coords.y )
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=East;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x-1 && maze->mouses[i]->coords.y == chat->coords.y )
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=West;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+1 )
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=South;
+            chat->numDir++;*/
+        }
+        if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-1 )
+        {
+            souris = 1;
+            chat->mouse=maze->mouses[i];
+
+            /*chat->Direction[chat->numDir]=North;
+            chat->numDir++;*/
+        }
+    }
+
+
+   //s'il y a le souris, le chat le suivre
+
+
+   if(souris==1)
+    {
+        chat->dest.x=chat->mouse->coords.x;
+        chat->dest.y=chat->mouse->coords.y;
+        printf("%d,%d",chat->dest.x,chat->dest.y);
+        moveToMouse(chat);
+    }
+
+    //s'il y a le souris, le chat le suivre
+    /*if(souris=1)
+    {
+        //on trouve le souris a cote, on prend le meme direction
+        switch(chat->Direction[0])
+        {
+        case North:
+            for(i = 0; i < maze->numMouses; i++)
+            {
+                if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-1)
+                {
+                    getSouris=1;
+                    chat->dest=&maze->mouses[i]->dest;
+                }
+            }
+            break;
+
+        case South:
+            for(i = 0; i < maze->numMouses; i++)
+            {
+                if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+1)
+                {
+                    getSouris=1;
+                    chat->dest=&maze->mouses[i]->dest;
+                }
+            }
+            break;
+
+        case West:
+            for(i = 0; i < maze->numMouses; i++)
+            {
+                if(maze->mouses[i]->coords.x == chat->coords.x-1 && maze->mouses[i]->coords.y == chat->coords.y)
+                {
+                    getSouris=1;
+                    chat->dest=&maze->mouses[i]->dest;
+                }
+            }
+            break;
+
+        case East:
+            for(i = 0; i < maze->numMouses; i++)
+            {
+                if(maze->mouses[i]->coords.x == chat->coords.x+1 && maze->mouses[i]->coords.y == chat->coords.y)
+                {
+                    getSouris=1;
+                    chat->dest=&maze->mouses[i]->dest;
+                }
+            }
+            break;
+
+        default:
+            break;
+        }
+
+        if(getSouris=0)
+        {
+            switch(chat->Direction[0])
+            {
+            case North:
+                for(i = 0; i < maze->numMouses; i++)
+                {
+                    if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-2)
+                    {
+                        getSouris=1;
+                        chat->dest=&maze->mouses[i]->dest;
+                    }
+                }
+                break;
+
+            case South:
+                for(i = 0; i < maze->numMouses; i++)
+                {
+                    if(maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+2)
+                    {
+                        getSouris=1;
+                        chat->dest=&maze->mouses[i]->dest;
+                    }
+                }
+                break;
+
+            case West:
+                for(i = 0; i < maze->numMouses; i++)
+                {
+                    if(maze->mouses[i]->coords.x == chat->coords.x-2 && maze->mouses[i]->coords.y == chat->coords.y)
+                    {
+                        getSouris=1;
+                        chat->dest=&maze->mouses[i]->dest;
+                    }
+                }
+                break;
+
+            case East:
+                for(i = 0; i < maze->numMouses; i++)
+                {
+                    if(maze->mouses[i]->coords.x == chat->coords.x+2 && maze->mouses[i]->coords.y == chat->coords.y)
+                    {
+                        getSouris=1;
+                        chat->dest=&maze->mouses[i]->dest;
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }*/
+
+        /*//on determine si le chat a trouve le souris
+        {
+            for(i=0; i<maze->numMouses; i++)
+            {
+                if(chat->coords.x==maze->mouses[i]->coords.x && chat->coords.y == maze->mouses[i]->coords.y)
+                {
+                    getMouse=1;
+                }
+            }
+        }*/
+
+        /*if(chat->dest!=NULL && getMouse==0)
+        {
+moveToMouse(chat);
+        }*/
+
+    }
+

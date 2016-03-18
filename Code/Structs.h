@@ -61,6 +61,14 @@ struct Cat
 {
     Coords coords;
     SDL_Sprite* sprite;
+
+    /*int Direction[8];
+    int numDir;*/
+
+    Mouse *mouse;
+
+    Node dest;
+
 };
 typedef struct Cat Cat;
 

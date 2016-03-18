@@ -26,7 +26,6 @@ int GAME_create(SDL_Renderer* renderer)
     mMaze->mouses[mMaze->numMouses] = createMouse(23,17,renderer);
     generateMouseTree(mMaze,mMaze->numMouses);
     mMaze->numMouses++;
-
     return 1;
 }
 
