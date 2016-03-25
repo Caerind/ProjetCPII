@@ -437,21 +437,29 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
                 {
                     SetMousePosition(mouse,mouse->coords.x+1,mouse->coords.y);
                     moved=1;
+                    mouse->dest.x = mouse->coords.x-1;
+                    mouse->dest.y = mouse->coords.y;
                 }
                 if(mouse->coords.x-1 == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
                 {
                     SetMousePosition(mouse,mouse->coords.x-1,mouse->coords.y);
                     moved=1;
+                    mouse->dest.x = mouse->coords.x+1;
+                    mouse->dest.y = mouse->coords.y;
                 }
                 if(mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y+1 == maze->cheeses[i]->coords.y)
                 {
                     SetMousePosition(mouse,mouse->coords.x,mouse->coords.y+1);
                     moved=1;
+                    mouse->dest.x = mouse->coords.x;
+                    mouse->dest.y = mouse->coords.y-1;
                 }
                 if(mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y-1 == maze->cheeses[i]->coords.y)
                 {
                     SetMousePosition(mouse,mouse->coords.x,mouse->coords.y-1);
                     moved=1;
+                    mouse->dest.x = mouse->coords.x;
+                    mouse->dest.y = mouse->coords.y+1;
                 }
 
             }
