@@ -426,9 +426,13 @@ int comparer_dx_dy(int dx,int dy)
 void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
 {
     int i,j;
+    int dx,dy;
     Cheese* cheese = maze->cheeses[0]; // TODO : Get Nearest Cheese
-    int dx = cheese->coords.x - mouse->coords.x;
-    int dy = cheese->coords.y - mouse->coords.y;
+    if (mouse != NULL && cheese != NULL)
+    {
+        dx = cheese->coords.x - mouse->coords.x;
+        dy = cheese->coords.y - mouse->coords.y;
+    }
     Node tab[4];
     int numNodesPossibilities = 0;
     // On actualise notre position de départ (node actual)
@@ -850,37 +854,34 @@ void RemoveCheeseFromMaze(Maze* maze,int cheeseIndex)
     Cheese* cheese = maze->cheeses[cheeseIndex];
     int i,j;
     for(i = 0; i < maze->numMouses; i++)
+    {
+        if(cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
         {
-            if(cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
+            for(j = cheeseIndex; j < maze->numCheeses; j++)
             {
-                for(j=cheeseIndex; j < maze->numCheeses; j++)
-                {
-                    maze->cheeses[j]=maze->cheeses[j+1];
-                }
-                maze->numCheeses--;
+                maze->cheeses[j]=maze->cheeses[j+1];
             }
+            maze->cheeses[maze->numCheeses-1] = NULL;
+            maze->numCheeses--;
         }
+    }
 }
 
 
 void RemoveMouseFromMaze(Maze* maze, int mouseIndex)
 {
     Mouse* mouse = maze->mouses[mouseIndex];
-
     int i,j;
-
     for(i = 0;i < maze->numCats;i++)
     {
-            if(maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
+        if(maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
+        {
+            for(j = mouseIndex; j < maze->numMouses; j++)
             {
-                for(j=mouseIndex; j < maze->numMouses; j++)
-                {
-                    maze->mouses[j]=maze->cheeses[j+1];
-                }
-                maze->numMouses--;
+                maze->mouses[j] = maze->mouses[j+1];
             }
+            maze->mouses[maze->numMouses-1] = NULL;
+            maze->numMouses--;
         }
     }
-
-
-
+}

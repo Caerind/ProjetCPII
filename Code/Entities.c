@@ -41,7 +41,10 @@ void destroyCheese(Cheese* cheese)
 
 void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
 {
-    SDL_RenderSprite(renderer,cheese->sprite);
+    if (cheese != NULL)
+    {
+        SDL_RenderSprite(renderer,cheese->sprite);
+    }
 }
 
 
@@ -97,7 +100,10 @@ void destroyMouse(Mouse* mouse)
 
 void renderMouse(SDL_Renderer* renderer, Mouse* mouse)
 {
-    SDL_RenderSprite(renderer,mouse->sprite);
+    if (mouse != NULL)
+    {
+        SDL_RenderSprite(renderer,mouse->sprite);
+    }
 }
 
 
@@ -142,5 +148,8 @@ void destroyCat(Cat* cat)
 
 void renderCat(SDL_Renderer* renderer, Cat* cat)
 {
-    SDL_RenderSprite(renderer,cat->sprite);
+    if (cat != NULL)
+    {
+        SDL_RenderSprite(renderer,cat->sprite);
+    }
 }

@@ -121,10 +121,10 @@ void GAME_update()
     }
 
 
-        for (i = 0; i < mMaze->numCheeses; i++)
-        {
-            RemoveCheeseFromMaze(mMaze,i);
-        }
+    for (i = 0; i < mMaze->numCheeses; i++)
+    {
+        RemoveCheeseFromMaze(mMaze,i);
+    }
 
 }
 
