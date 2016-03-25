@@ -111,7 +111,7 @@ void GAME_update()
     }
 
     mFrameCatCount++;
-    if (mFrameCatCount >= 8)
+    if (mFrameCatCount >= 10)
     {
         for (i = 0; i < mMaze->numCats; i++)
         {
@@ -119,7 +119,6 @@ void GAME_update()
         }
         mFrameCatCount = 0;
     }
-
 
     for (i = 0; i < mMaze->numCheeses; i++)
     {
