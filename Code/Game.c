@@ -8,6 +8,7 @@
 Maze* mMaze = NULL;
 int mFrameMouseCount = 0;
 int mFrameCatCount = 0;
+int mFrameCheeseCount = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {
@@ -87,6 +88,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
             {
                 mMaze->cats[mMaze->numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                mMaze->cats[mMaze->numCats]->mouse=NULL;
                 mMaze->numCats++;
             }
         }
@@ -103,12 +105,13 @@ void GAME_update()
         for (i = 0; i < mMaze->numMouses; i++)
         {
             nextMoveMouse(mMaze,i);
+            RemoveMouseFromMaze(mMaze,i);
         }
         mFrameMouseCount = 0;
     }
 
     mFrameCatCount++;
-    if (mFrameCatCount >= 14)
+    if (mFrameCatCount >= 8)
     {
         for (i = 0; i < mMaze->numCats; i++)
         {
@@ -116,6 +119,13 @@ void GAME_update()
         }
         mFrameCatCount = 0;
     }
+
+
+        for (i = 0; i < mMaze->numCheeses; i++)
+        {
+            RemoveCheeseFromMaze(mMaze,i);
+        }
+
 }
 
 void GAME_render(SDL_Renderer* renderer)
