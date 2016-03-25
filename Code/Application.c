@@ -8,7 +8,8 @@
 
 // Notre structure Context
 SDL_Context* mContext = NULL;
-Mix_Music* music = NULL;
+Mix_Music* mMusic = NULL;
+SDL_Sprite* mCursor = NULL;
 
 int init()
 {
@@ -30,16 +31,23 @@ int init()
         return -1;
     }
 
+    mCursor = SDL_CreateSpriteTransparency("Assets/cursor.bmp",mContext->renderer,255,0,255);
+    if (mCursor != NULL)
+    {
+        SDL_ShowCursor(0);
+    }
+
+    // Ouverture d'un canal
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
     {
         return -1;
     }
 
     // On charge et on joue la musique
-    music = Mix_LoadMUS("Assets/theme.ogg");
-    if (music != NULL)
+    mMusic = Mix_LoadMUS("Assets/theme.ogg");
+    if (mMusic != NULL)
     {
-        if (Mix_PlayMusic(music,-1) == -1)
+        if (Mix_PlayMusic(mMusic,-1) == -1)
         {
             printf("Mix_PlayMusic: %s\n", Mix_GetError());
         }
@@ -66,7 +74,7 @@ void quit()
     // Suppresion du Context
     SDL_DestroyContext(mContext);
 
-    Mix_FreeMusic(music);
+    Mix_FreeMusic(mMusic);
 
     // On quitte SDL
     SDL_Quit();
@@ -98,11 +106,24 @@ void update()
 
 void render()
 {
+    SDL_Point m = SDL_GetMousePosition();
+
     // On efface le contenu de la fenêtre
 	SDL_RenderClear(mContext->renderer);
 
     // On dessine le state actuel
 	STATES_render(mContext->renderer);
+
+	if (mCursor != NULL)
+    {
+        mCursor->pos.x = m.x;
+        mCursor->pos.y = m.y;
+        SDL_RenderSprite(mContext->renderer,mCursor);
+    }
+    else
+    {
+        SDL_ShowCursor(1);
+    }
 
     // On affiche le renderer sur la fenêtre
 	SDL_RenderPresent(mContext->renderer);
