@@ -35,6 +35,10 @@ void ALGO1_destroy()
     {
         destroyMouse(mAlgo1Maze->mouses[i]);
     }
+    for (i = 0; i < mAlgo1Maze->numCats; i++)
+    {
+        destroyCat(mAlgo1Maze->cats[i]);
+    }
     destroyMaze(mAlgo1Maze);
 }
 
@@ -50,11 +54,42 @@ void ALGO1_handleEvent(SDL_Event event, SDL_Context* context)
 
     if (event.type == SDL_MOUSEBUTTONDOWN && event.button.state == SDL_PRESSED)
     {
-        // Left
+        // Left Souris
         if (event.button.button == SDL_BUTTON_LEFT)
         {
-            nextMoveMouse(mAlgo1Maze,0);
+            if (getMazeId(mAlgo1Maze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
+            {
+                mAlgo1Maze->mouses[mAlgo1Maze->numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                generateMouseTree(mAlgo1Maze,mAlgo1Maze->numMouses);
+                mAlgo1Maze->numMouses++;
+            }
         }
+
+        // Right
+        if (event.button.button == SDL_BUTTON_RIGHT)
+        {
+            if (getMazeId(mAlgo1Maze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
+            {
+                mAlgo1Maze->cheeses[mAlgo1Maze->numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                mAlgo1Maze->numCheeses++;
+            }
+        }
+
+        // Middle
+        if (event.button.button == SDL_BUTTON_MIDDLE)
+        {
+            if (getMazeId(mAlgo1Maze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
+            {
+                mAlgo1Maze->cats[mAlgo1Maze->numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
+                mAlgo1Maze->cats[mAlgo1Maze->numCats]->mouse=NULL;
+                mAlgo1Maze->numCats++;
+            }
+        }
+    }
+
+    if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_RETURN)
+    {
+            nextMoveMouse(mAlgo1Maze,0);
     }
 }
 
@@ -73,5 +108,9 @@ void ALGO1_render(SDL_Renderer* renderer)
     for (i = 0; i < mAlgo1Maze->numMouses; i++)
     {
         renderMouse(renderer,mAlgo1Maze->mouses[i]);
+    }
+    for (i = 0; i < mAlgo1Maze->numCats; i++)
+    {
+        renderCat(renderer,mAlgo1Maze->cats[i]);
     }
 }

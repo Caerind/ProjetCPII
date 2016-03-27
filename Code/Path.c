@@ -43,7 +43,7 @@ void generateMouseTree(Maze* maze, int mouseIndex)
 
 
 
-    // On crée le labyrinthe
+    // On crée l'arbre
     do
     {
         // On définit le parent
@@ -109,21 +109,17 @@ void generateMouseTree(Maze* maze, int mouseIndex)
                     // Si c'est bon on ajoute dans la liste des noeuds
                     mouse->nodes[mouse->numNodes] = node;
                     mouse->nodes[mouse->numNodes].test=0;
-                    /*printf("\n\n %d %d\n",mouse->nodes[i+1].x,mouse->nodes[i+1].y);*/
                     mouse->numNodes++;
                 }
             }
-
         }
         i++;
     }
     while(i<=mouse->numNodes);
-
     findTarget(maze,mouse);
-    printf("mouse pos : %d %d\n",mouse->coords.x,mouse->coords.y);
+    /*printf("mouse pos : %d %d\n",mouse->coords.x,mouse->coords.y);
     printf("start : %d %d\n",mouse->start.x,mouse->start.y);
-    printf("dest : %d %d\n",mouse->dest.x, mouse->dest.y);
-
+    printf("dest : %d %d\n",mouse->dest.x, mouse->dest.y);*/
 }
 
 void moveToTarget(Mouse* mouse)
@@ -149,7 +145,6 @@ void moveToTarget(Mouse* mouse)
         SetMousePosition(mouse,mouse->coords.x - 1,mouse->coords.y);
     }
 }
-
 
 void moveToMouse(Maze* maze,Cat* cat)
 {
@@ -240,7 +235,6 @@ void moveToMouse(Maze* maze,Cat* cat)
             }
         }
     }
-
 }
 
 void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
@@ -250,9 +244,6 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
     Node tab[4];
     int numNodesPossibilities = 0;
 
-
-
-
     // On actualise notre position de départ (node actual)
     for (i = 0; i < mouse->numNodes; i++)
     {
@@ -261,7 +252,6 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
             mouse->start = mouse->nodes[i];
         }
     }
-
 
     // on trouve les enfants de cette node
     for(j = 0; j < mouse->numNodes; j++)
@@ -277,7 +267,7 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
     if (numNodesPossibilities > 0)
     {
         mouse->dest = tab[0];
-        //on le 'ferme'
+        //on le ferme
         for(j = 0; j < mouse->numNodes; j++)
         {
             if (mouse->nodes[j].x == mouse->dest.x&&mouse->nodes[j].y==mouse->dest.y)
@@ -286,7 +276,6 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
             }
         }
     }
-
 
     if(numNodesPossibilities==0)// c'est un chemin mort, pour retourner, on prend son parent
     {
@@ -298,11 +287,8 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
             }
         }
     }
-
-
     printf("p : %d\n",numNodesPossibilities);
 }
-
 
 void nextMoveMouse(Maze* maze, int mouseIndex)
 {
@@ -310,20 +296,7 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
     int test = 0, chat = 0, moved = 0, node = 0;
     int i,j,k;
 
-    //si le souris obtient le fromage,on ouvre tous les chemins
-    /*for(i = 0; i < maze->numCheeses; i++)
-    {
-        if(mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
-        {
-            for(k = 0; k < mouse->numNodes; k++)
-            {
-
-                    mouse->nodes[k].test = 0;
-
-            }
-        }
-    }*/
-    //s'il n'y a pas de fromage, le souris ne bouge pas
+    //s'il n'y a pas de fromage, ni de chat, les souris ne bougent pas
     if(maze->cheeses[0]== NULL && maze->cats[0] == NULL)
     {
         test = 1;
@@ -338,18 +311,14 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
         }
     }
 
-
     if(test == 0) // si on n'a pas encore trouve le fromage
     {
         for(j = 0; j < maze->numCats; j++)//on determine s'il y a du chat autour des souris
         {
             if(mouse->dest.x > mouse->coords.x)
             {
-                if(maze->cats[j]->coords.x == mouse->coords.x+2 && maze->cats[j]->coords.y == mouse->coords.y)
-                {
-                    chat=1;
-                }
-                if(maze->cats[j]->coords.x == mouse->coords.x+1 && mouse->coords.y == maze->cats[j]->coords.y)
+                if((maze->cats[j]->coords.x == mouse->coords.x+2 && maze->cats[j]->coords.y == mouse->coords.y)
+                 ||(maze->cats[j]->coords.x == mouse->coords.x+1 && mouse->coords.y == maze->cats[j]->coords.y))
                 {
                     chat=1;
                 }
@@ -364,11 +333,8 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
             if(mouse->dest.y > mouse->coords.y)
             {
-                if(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+2)
-                {
-                    chat=1;
-                }
-                if(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+1)
+                if((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+2)
+                 ||(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+1))
                 {
                     chat=1;
                 }
@@ -383,11 +349,8 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
             if(mouse->dest.x < mouse->coords.x)
             {
-                if(maze->cats[j]->coords.x == mouse->coords.x-2 && mouse->coords.y == maze->cats[j]->coords.y)
-                {
-                    chat=1;
-                }
-                if(maze->cats[j]->coords.x==mouse->coords.x-1&&mouse->coords.y==maze->cats[j]->coords.y)
+                if((maze->cats[j]->coords.x == mouse->coords.x-2 && mouse->coords.y == maze->cats[j]->coords.y)
+                 ||(maze->cats[j]->coords.x == mouse->coords.x-1 && mouse->coords.y == maze->cats[j]->coords.y))
                 {
                     chat=1;
                 }
@@ -402,11 +365,8 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
             if(mouse->dest.y < mouse->coords.y)
             {
-                if(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-2)
-                {
-                    chat=1;
-                }
-                if(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-1)
+                if((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-2)
+                 ||(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-1))
                 {
                     chat=1;
                 }
@@ -422,22 +382,20 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
 
         if(chat==1)//si le souris va renvontrer le chat, il retourne
         {
-            for(k = 0; k < mouse->numNodes; k++)//on ouvre tous les chemins fermés sauf celui de node actuel
+            for(k = 0; k < mouse->numNodes; k++)
             {
+                //on ouvre tous les chemins fermés sauf celui de node actuel
                 if(mouse->nodes[k].x != mouse->dest.x && mouse->nodes[k].y != mouse->dest.y)
                 {
                     mouse->nodes[k].test = 0;
                 }
-            }
-
-            //on trouve le parent de mouse->dest
-            for(k = 0; k < mouse->numNodes; k++)
-            {
+                 //on trouve le parent de mouse->dest
                 if (mouse->nodes[k].x == mouse->dest.parent.x && mouse->nodes[k].y == mouse->dest.parent.y)
                 {
                     mouse->dest = mouse->nodes[k];
                 }
             }
+
             chat=0;
         }
         else
@@ -589,7 +547,7 @@ void RemoveCheeseFromMaze(Maze* maze,int cheeseIndex)
     {
         if(cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
         {
-            for(j = cheeseIndex; j < maze->numCheeses; j++)
+            for(j = cheeseIndex; j < maze->numCheeses-1; j++)
             {
                 maze->cheeses[j]=maze->cheeses[j+1];
             }
@@ -608,7 +566,7 @@ void RemoveMouseFromMaze(Maze* maze, int mouseIndex)
     {
         if(maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
         {
-            for(j = mouseIndex; j < maze->numMouses; j++)
+            for(j = mouseIndex; j < maze->numMouses-1; j++)
             {
                 maze->mouses[j] = maze->mouses[j+1];
             }
