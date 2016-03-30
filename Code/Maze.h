@@ -39,4 +39,10 @@ void addMazeCheese(Maze* maze, SDL_Renderer* renderer, int x, int y);
 // Fonction pour ajouter un chat
 void addMazeCat(Maze* maze, SDL_Renderer* renderer, int x, int y);
 
+// Fonction pour supprimer un fromage du labyrinthe
+void removeCheeseFromMaze(Maze* maze, int cheeseIndex);
+
+// Fonction pour supprimer une souris du labyrinthe
+void removeMouseFromMaze(Maze* maze, int mouseIndex);
+
 #endif // MAZE_H_INCLUDED

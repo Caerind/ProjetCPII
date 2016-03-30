@@ -5,6 +5,7 @@
 #include <SDL2/SDL_audio.h>
 #include <SDL2/SDL_mixer.h>
 
+// Noeud pour l'intelligence des souris
 struct Node
 {
     int x;
@@ -14,6 +15,7 @@ struct Node
 };
 typedef struct Node Node;
 
+// Sprite pour l'affichage simplifié
 struct SDL_Sprite
 {
     SDL_Texture* texture;
@@ -22,6 +24,7 @@ struct SDL_Sprite
 };
 typedef struct SDL_Sprite SDL_Sprite;
 
+// Permet de gérer les structures SDL
 struct SDL_Context
 {
     SDL_Window* window;
@@ -33,6 +36,7 @@ struct SDL_Context
 };
 typedef struct SDL_Context SDL_Context;
 
+// Fromage
 struct Cheese
 {
     SDL_Point coords;
@@ -40,6 +44,7 @@ struct Cheese
 };
 typedef struct Cheese Cheese;
 
+// Souris
 struct Mouse
 {
     SDL_Point coords;
@@ -54,6 +59,7 @@ struct Mouse
 };
 typedef struct Mouse Mouse;
 
+// Chat
 struct Cat
 {
     SDL_Point coords;
@@ -65,6 +71,7 @@ struct Cat
 };
 typedef struct Cat Cat;
 
+// Labyrinthe
 struct Maze
 {
     int** tab;

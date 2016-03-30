@@ -1,7 +1,8 @@
 #include "Utils.h"
+#include "Maze.h"
 #include "MazeGenerator.h"
 
-Maze* mAlgo1Maze = NULL;
+static Maze* mAlgo1Maze = NULL;
 
 int ALGO1_create(SDL_Renderer* renderer)
 {

@@ -99,13 +99,13 @@ void updateMaze(Maze* maze)
     // On supprime les souris mangées
     for (i = 0; i < maze->numMouses; i++)
     {
-        RemoveMouseFromMaze(maze,i);
+        removeMouseFromMaze(maze,i);
     }
 
     // On supprime les fromages mangés
     for (i = 0; i < maze->numCheeses; i++)
     {
-        RemoveCheeseFromMaze(maze,i);
+        removeCheeseFromMaze(maze,i);
     }
 }
 
@@ -238,5 +238,41 @@ void addMazeCat(Maze* maze, SDL_Renderer* renderer, int x, int y)
         maze->cats[maze->numCats] = createCat(x,y,renderer);
         maze->cats[maze->numCats]->mouse=NULL;
         maze->numCats++;
+    }
+}
+
+void removeCheeseFromMaze(Maze* maze,int cheeseIndex)
+{
+    Cheese* cheese = maze->cheeses[cheeseIndex];
+    int i,j;
+    for (i = 0; i < maze->numMouses; i++)
+    {
+        if (cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
+        {
+            for(j = cheeseIndex; j < maze->numCheeses-1; j++)
+            {
+                maze->cheeses[j]=maze->cheeses[j+1];
+            }
+            maze->cheeses[maze->numCheeses-1] = NULL;
+            maze->numCheeses--;
+        }
+    }
+}
+
+void removeMouseFromMaze(Maze* maze, int mouseIndex)
+{
+    Mouse* mouse = maze->mouses[mouseIndex];
+    int i,j;
+    for (i = 0; i < maze->numCats; i++)
+    {
+        if (maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
+        {
+            for (j = mouseIndex; j < maze->numMouses-1; j++)
+            {
+                maze->mouses[j] = maze->mouses[j+1];
+            }
+            maze->mouses[maze->numMouses-1] = NULL;
+            maze->numMouses--;
+        }
     }
 }

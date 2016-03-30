@@ -7,7 +7,7 @@
 #include "Algo1.h"
 #include "Algo2.h"
 
-int actualState = -1;
+static int actualState = -1;
 
 int STATES_getState()
 {

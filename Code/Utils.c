@@ -217,11 +217,3 @@ int randomInt(int min, int max)
 {
     return rand() % (max - min + 1) + min;
 }
-
-SDL_Point randomCoords(int minX, int maxX, int minY, int maxY)
-{
-    SDL_Point c;
-    c.x = randomInt(minX,maxX);
-    c.y = randomInt(minY,maxY);
-    return c;
-}

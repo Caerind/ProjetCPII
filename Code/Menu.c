@@ -1,9 +1,9 @@
 #include "Utils.h"
 
-SDL_Sprite* mBackgroundMenu = NULL;
-SDL_Sprite* mButtons[4];
-SDL_Sprite* mLogoEsig;
-SDL_Sprite* mEsig;
+static SDL_Sprite* mBackgroundMenu = NULL;
+static SDL_Sprite* mButtons[4];
+static SDL_Sprite* mLogoEsig;
+static SDL_Sprite* mEsig;
 
 int MENU_create(SDL_Renderer* renderer)
 {

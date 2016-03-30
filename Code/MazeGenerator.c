@@ -1,9 +1,9 @@
 #include "Utils.h"
 #include "Maze.h"
 
-SDL_Point gen_tab[100];
-int gen_numPoints;
-int gen_lastStep;
+static SDL_Point gen_tab[100];
+static int gen_numPoints;
+static int gen_lastStep;
 
 int isWallNode(int x, int y)
 {
@@ -287,70 +287,9 @@ void generationStep(Maze* maze)
         }
         else // s'il ne reste plus de case possible
         {
-            gen_lastStep = 1;
-            generationEnding(maze);
+            printf("error : maze generation");
         }
     }
-    else
-    {
-        generationEnding(maze);
-    }
-}
-
-void generationEnding(Maze* maze)
-{
-    if (isFinished())
-    {
-        return;
-    }
-
-    int i,j,k = 0;
-    SDL_Point unused[100];
-    for (i = 2; i < TILE_WIDTH - 2; i++)
-    {
-        for (j = 2; j < TILE_HEIGHT - 2; j++)
-        {
-            if (isWallNode(i,j))
-            {
-                if (getTabId(i,j) == -1)
-                {
-                    unused[k].x = i;
-                    unused[k].y = j;
-                    k++;
-                }
-            }
-        }
-    }
-
-    k = randomInt(0,k);
-    i = unused[k].x;
-    j = unused[k].y;
-
-    printf("...\n");
-
-    k = randomInt(North,East);
-    if (k == North)
-    {
-        setMazeId(maze,i,j-1,Mur);
-    }
-    if (k == West)
-    {
-        setMazeId(maze,i-1,j,Mur);
-    }
-    if (k == South)
-    {
-        setMazeId(maze,i,j+1,Mur);
-    }
-    if (k == East)
-    {
-        setMazeId(maze,i+1,j,Mur);
-    }
-
-    setMazeId(maze,i,j,Mur);
-
-    gen_tab[gen_numPoints].x = i;
-    gen_tab[gen_numPoints].y = j;
-    gen_numPoints++;
 }
 
 void generationFinish(Maze* maze)

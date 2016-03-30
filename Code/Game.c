@@ -5,10 +5,10 @@
 #include "States.h"
 #include "Path.h"
 
-Maze* mMaze = NULL;
-int mFrameMouseCount = 0;
-int mFrameCatCount = 0;
-int mFrameCheeseCount = 0;
+static Maze* mMaze = NULL;
+static int mFrameMouseCount = 0;
+static int mFrameCatCount = 0;
+static int mFrameCheeseCount = 0;
 
 int GAME_create(SDL_Renderer* renderer)
 {

@@ -1,9 +1,9 @@
 #include "Utils.h"
 
-Maze* mAlgo2Maze = NULL;
-int mAlgo2Step = 0;
-int mAlgo2FPS = 0;
-int mAlgo2Play = 0;
+static Maze* mAlgo2Maze = NULL;
+static int mAlgo2Step = 0;
+static int mAlgo2FPS = 0;
+static int mAlgo2Play = 0;
 
 int ALGO2_create(SDL_Renderer* renderer)
 {

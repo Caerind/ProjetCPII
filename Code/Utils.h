@@ -66,7 +66,4 @@ SDL_Point SDL_GetMousePosition();
 // Random Int
 int randomInt(int min, int max);
 
-// Random SDL_Point
-SDL_Point randomCoords(int minX, int maxX, int minY, int maxY);
-
 #endif // UTILS_H_INCLUDED

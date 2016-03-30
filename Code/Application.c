@@ -4,7 +4,7 @@
 #include "States.h"
 
 // Notre structure Context
-SDL_Context* mContext = NULL;
+static SDL_Context* mContext = NULL;
 
 int init(const char* title, int width, int height)
 {
@@ -113,4 +113,3 @@ void run()
         SDL_Delay(20); // 20ms ~= 60 FPS
     }
 }
-

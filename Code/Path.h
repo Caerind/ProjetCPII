@@ -3,13 +3,22 @@
 
 #include "Structs.h"
 
+// Créer le labyrinthe dans la mémoire de la souris
 void generateMouseTree(Maze* maze, int mouseIndex);
+
+// Déplace la soruis vers sa destination
 void moveToTarget(Mouse* mouse);
+
+// Déplace le chat dans la direction de la souris qu'il cible
 void moveToMouse(Cat* cat);
-void findTarget(Maze* maze,Mouse* mouse);//trouver la prochaine node
+
+// Permet à la souris de trouver sa prochaine destination
+void findTarget(Maze* maze, Mouse* mouse);
+
+// Déplace une souris
 void nextMoveMouse(Maze* maze, int mouseIndex);
+
+// Déplace un chat
 void nextMoveCat(Maze* maze, int catIndex);
-void RemoveCheeseFromMaze(Maze* maze, int cheeseIndex);
-void RemoveMouseFromMaze(Maze* maze, int mouseIndex);
 
 #endif // PATH_H_INCLUDED
