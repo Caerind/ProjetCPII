@@ -21,12 +21,9 @@ int GAME_create(SDL_Renderer* renderer)
 
     generation(mMaze);
 
-    mMaze->cheeses[mMaze->numCheeses] = createCheese(1,1,renderer);
-    mMaze->numCheeses++;
+    addMazeMouse(mMaze,renderer,23,17);
+    addMazeCheese(mMaze,renderer,1,1);
 
-    mMaze->mouses[mMaze->numMouses] = createMouse(23,17,renderer);
-    generateMouseTree(mMaze,mMaze->numMouses);
-    mMaze->numMouses++;
     return 1;
 }
 
@@ -50,6 +47,7 @@ void GAME_destroy()
 
 void GAME_handleEvent(SDL_Event event, SDL_Context* context)
 {
+    // Position de la souris
     SDL_Point m = SDL_GetMousePosition();
 
     // Retourner au menu
@@ -66,9 +64,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
             {
-                mMaze->mouses[mMaze->numMouses] = createMouse(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                generateMouseTree(mMaze,mMaze->numMouses);
-                mMaze->numMouses++;
+                addMazeMouse(mMaze,context->renderer,m.x / TILE_SIZE,m.y / TILE_SIZE);
             }
         }
 
@@ -77,8 +73,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
             {
-                mMaze->cheeses[mMaze->numCheeses] = createCheese(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                mMaze->numCheeses++;
+                addMazeCheese(mMaze,context->renderer,m.x / TILE_SIZE,m.y / TILE_SIZE);
             }
         }
 
@@ -87,9 +82,7 @@ void GAME_handleEvent(SDL_Event event, SDL_Context* context)
         {
             if (getMazeId(mMaze,m.x / TILE_SIZE,m.y / TILE_SIZE) < 6)
             {
-                mMaze->cats[mMaze->numCats] = createCat(m.x / TILE_SIZE,m.y / TILE_SIZE,context->renderer);
-                mMaze->cats[mMaze->numCats]->mouse=NULL;
-                mMaze->numCats++;
+                addMazeCat(mMaze,context->renderer,m.x / TILE_SIZE,m.y / TILE_SIZE);
             }
         }
     }
@@ -100,18 +93,17 @@ void GAME_update()
     int i = 0;
 
     mFrameMouseCount++;
-    if (mFrameMouseCount >= 8)
+    if (mFrameMouseCount >= 8) // On mets à jour les souris
     {
         for (i = 0; i < mMaze->numMouses; i++)
         {
             nextMoveMouse(mMaze,i);
-            RemoveMouseFromMaze(mMaze,i);
         }
         mFrameMouseCount = 0;
     }
 
     mFrameCatCount++;
-    if (mFrameCatCount >= 10)
+    if (mFrameCatCount >= 10) // On mets à jour les chats
     {
         for (i = 0; i < mMaze->numCats; i++)
         {
@@ -120,27 +112,10 @@ void GAME_update()
         mFrameCatCount = 0;
     }
 
-    for (i = 0; i < mMaze->numCheeses; i++)
-    {
-        RemoveCheeseFromMaze(mMaze,i);
-    }
-
+    updateMaze(mMaze); // On supprime les entites qui doivent l'etre
 }
 
 void GAME_render(SDL_Renderer* renderer)
 {
-    int i = 0;
     renderMaze(renderer,mMaze);
-    for (i = 0; i < mMaze->numCheeses; i++)
-    {
-        renderCheese(renderer,mMaze->cheeses[i]);
-    }
-    for (i = 0; i < mMaze->numMouses; i++)
-    {
-        renderMouse(renderer,mMaze->mouses[i]);
-    }
-    for (i = 0; i < mMaze->numCats; i++)
-    {
-        renderCat(renderer,mMaze->cats[i]);
-    }
 }

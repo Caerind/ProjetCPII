@@ -2,29 +2,15 @@
 #define SPRITE_H_INCLUDED
 
 #include <SDL2/SDL.h>
-
-struct SDL_Context
-{
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    SDL_Surface* icon;
-    int isOpen;
-};
-typedef struct SDL_Context SDL_Context;
-
-struct Coords
-{
-    int x;
-    int y;
-};
-typedef struct Coords Coords;
+#include <SDL2/SDL_audio.h>
+#include <SDL2/SDL_mixer.h>
 
 struct Node
 {
     int x;
     int y;
-    struct Coords parent;
-    int test;// test = 0, la node n'est pas encore priss
+    SDL_Point parent;
+    int test; // test = 0, la node n'est pas encore priss
 };
 typedef struct Node Node;
 
@@ -36,16 +22,27 @@ struct SDL_Sprite
 };
 typedef struct SDL_Sprite SDL_Sprite;
 
+struct SDL_Context
+{
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    SDL_Surface* icon;
+    Mix_Music* music;
+    SDL_Sprite* cursor;
+    int isOpen;
+};
+typedef struct SDL_Context SDL_Context;
+
 struct Cheese
 {
-    Coords coords;
+    SDL_Point coords;
     SDL_Sprite* sprite;
 };
 typedef struct Cheese Cheese;
 
 struct Mouse
 {
-    Coords coords;
+    SDL_Point coords;
     SDL_Sprite* sprite;
 
     Node nodes[400];
@@ -59,23 +56,19 @@ typedef struct Mouse Mouse;
 
 struct Cat
 {
-    Coords coords;
+    SDL_Point coords;
     SDL_Sprite* sprite;
-
-    /*int Direction[8];
-    int numDir;*/
 
     Mouse *mouse;
 
     Node dest;
-
 };
 typedef struct Cat Cat;
 
 struct Maze
 {
     int** tab;
-    Coords size;
+    SDL_Point size;
 
     Cheese* cheeses[100];
     int numCheeses;

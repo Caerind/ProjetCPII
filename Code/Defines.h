@@ -21,6 +21,7 @@ enum States
     STATE_ALGO_2 = 3,
 };
 
+// Enum pour lister les directions
 enum Direction
 {
     North = 0,
@@ -30,6 +31,7 @@ enum Direction
     DirCount = 4,
 };
 
+// Enum pour lister les différents types de blocs
 enum Blocks
 {
     Vide = 0,

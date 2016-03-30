@@ -5,7 +5,7 @@
 void generateMouseTree(Maze* maze, int mouseIndex)
 {
     int i=0,j,k,test;
-    Coords wall,parent;
+    SDL_Point wall,parent;
     Node node;
     Mouse* mouse = maze->mouses[mouseIndex];
 
@@ -543,9 +543,9 @@ void RemoveCheeseFromMaze(Maze* maze,int cheeseIndex)
 {
     Cheese* cheese = maze->cheeses[cheeseIndex];
     int i,j;
-    for(i = 0; i < maze->numMouses; i++)
+    for (i = 0; i < maze->numMouses; i++)
     {
-        if(cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
+        if (cheese->coords.x == maze->mouses[i]->coords.x && cheese->coords.y == maze->mouses[i]->coords.y)
         {
             for(j = cheeseIndex; j < maze->numCheeses-1; j++)
             {
@@ -562,11 +562,11 @@ void RemoveMouseFromMaze(Maze* maze, int mouseIndex)
 {
     Mouse* mouse = maze->mouses[mouseIndex];
     int i,j;
-    for(i = 0; i < maze->numCats; i++)
+    for (i = 0; i < maze->numCats; i++)
     {
-        if(maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
+        if (maze->cats[i]->coords.x == mouse->coords.x && maze->cats[i]->coords.y == mouse->coords.y)
         {
-            for(j = mouseIndex; j < maze->numMouses-1; j++)
+            for (j = mouseIndex; j < maze->numMouses-1; j++)
             {
                 maze->mouses[j] = maze->mouses[j+1];
             }

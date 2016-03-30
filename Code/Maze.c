@@ -47,10 +47,12 @@ void destroyMaze(Maze* maze)
 
 void renderMaze(SDL_Renderer* renderer, Maze* maze)
 {
-    Coords c;
+    int i;
+    SDL_Point c;
     SDL_Sprite* sprite = NULL;
     if (maze != NULL)
     {
+        // Dessiner le sol
         sprite = SDL_CreateSprite("Assets/tileset.bmp",renderer);
         if (sprite != NULL)
         {
@@ -69,12 +71,47 @@ void renderMaze(SDL_Renderer* renderer, Maze* maze)
             }
         }
         SDL_DestroySprite(sprite);
+
+        // Dessiner les fromages
+        for (i = 0; i < maze->numCheeses; i++)
+        {
+            renderCheese(renderer,maze->cheeses[i]);
+        }
+
+        // Dessiner les souris
+        for (i = 0; i < maze->numMouses; i++)
+        {
+            renderMouse(renderer,maze->mouses[i]);
+        }
+
+        // Dessiner les chats
+        for (i = 0; i < maze->numCats; i++)
+        {
+            renderCat(renderer,maze->cats[i]);
+        }
+    }
+}
+
+void updateMaze(Maze* maze)
+{
+    int i;
+
+    // On supprime les souris mangées
+    for (i = 0; i < maze->numMouses; i++)
+    {
+        RemoveMouseFromMaze(maze,i);
+    }
+
+    // On supprime les fromages mangés
+    for (i = 0; i < maze->numCheeses; i++)
+    {
+        RemoveCheeseFromMaze(maze,i);
     }
 }
 
 void fillMaze(Maze* maze, int id)
 {
-    Coords c;
+    SDL_Point c;
     if (maze != NULL)
     {
         for (c.x = 0; c.x < maze->size.x; c.x++)
@@ -114,7 +151,7 @@ Maze* loadMazeFromFile(const char* filename)
 {
     FILE* file = NULL;
     Maze* maze = NULL;
-    Coords c;
+    SDL_Point c;
 
     // Open file
     file = fopen(filename,"r");
@@ -172,5 +209,34 @@ void saveMazeToFile(Maze* maze, const char* filename)
         {
             error("Save Maze");
         }
+    }
+}
+
+void addMazeMouse(Maze* maze, SDL_Renderer* renderer, int x, int y)
+{
+    if (maze != NULL)
+    {
+        maze->mouses[maze->numMouses] = createMouse(x,y,renderer);
+        generateMouseTree(maze,maze->numMouses);
+        maze->numMouses++;
+    }
+}
+
+void addMazeCheese(Maze* maze, SDL_Renderer* renderer, int x, int y)
+{
+    if (maze != NULL)
+    {
+        maze->cheeses[maze->numCheeses] = createCheese(x,y,renderer);
+        maze->numCheeses++;
+    }
+}
+
+void addMazeCat(Maze* maze, SDL_Renderer* renderer, int x, int y)
+{
+    if (maze != NULL)
+    {
+        maze->cats[maze->numCats] = createCat(x,y,renderer);
+        maze->cats[maze->numCats]->mouse=NULL;
+        maze->numCats++;
     }
 }

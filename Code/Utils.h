@@ -14,16 +14,6 @@ void errorSDL(const char* msg);
 
 
 
-/* Context Function */
-
-// Load a context
-SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY);
-
-// Free the context
-void SDL_DestroyContext(SDL_Context* context);
-
-
-
 /* Texture Function */
 
 // Load a texture easily
@@ -31,8 +21,6 @@ SDL_Texture* SDL_CreateTextureFromFile(const char* file, SDL_Renderer* renderer)
 
 // Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving the texture's width and height
 void SDL_RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y, SDL_Rect* clip);
-
-
 
 
 
@@ -55,8 +43,21 @@ SDL_Rect SDL_GetSpriteRect(SDL_Sprite* sprite);
 
 
 
+
+/* Context Function */
+
+// Load a context
+SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY);
+
+// Free the context
+void SDL_DestroyContext(SDL_Context* context);
+
+
+
+
 /* Get Mouse Position */
 SDL_Point SDL_GetMousePosition();
+
 
 
 
@@ -65,7 +66,7 @@ SDL_Point SDL_GetMousePosition();
 // Random Int
 int randomInt(int min, int max);
 
-// Random Coords
-Coords randomCoords(int minX, int maxX, int minY, int maxY);
+// Random SDL_Point
+SDL_Point randomCoords(int minX, int maxX, int minY, int maxY);
 
 #endif // UTILS_H_INCLUDED

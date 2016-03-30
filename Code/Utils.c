@@ -12,59 +12,6 @@ void errorSDL(const char* msg)
     printf("Error : %s : %s\n",msg,SDL_GetError());
 }
 
-SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY)
-{
-    SDL_Context* context = NULL;
-    context = malloc(sizeof(SDL_Context));
-    if (context == NULL)
-    {
-        error("Mauvaise alloc");
-        return NULL;
-    }
-
-    context->window = NULL;
-    context->renderer = NULL;
-    context->isOpen = 0;
-
-    context->window = SDL_CreateWindow(title,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,sizeX,sizeY,SDL_WINDOW_SHOWN);
-    if (context->window == NULL)
-    {
-        errorSDL("Window");
-        return NULL;
-    }
-    else
-    {
-        context->isOpen = 1;
-    }
-
-    context->renderer = SDL_CreateRenderer(context->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (context->renderer == NULL)
-    {
-        errorSDL("Renderer");
-        return NULL;
-    }
-
-    // Icon
-    context->icon = SDL_LoadBMP("Assets/icon.bmp");
-    SDL_SetColorKey(context->icon,SDL_TRUE,SDL_MapRGB(context->icon->format,255,0,255));
-    SDL_SetWindowIcon(context->window,context->icon);
-
-    return context;
-}
-
-void SDL_DestroyContext(SDL_Context* context)
-{
-    if (context != NULL)
-    {
-        SDL_DestroyRenderer(context->renderer);
-        SDL_DestroyWindow(context->window);
-        context->isOpen = 0;
-    }
-    free(context);
-}
-
-
-
 SDL_Texture* SDL_CreateTextureFromFile(const char* file, SDL_Renderer* renderer)
 {
 	SDL_Texture* texture = NULL;
@@ -185,6 +132,80 @@ SDL_Rect SDL_GetSpriteRect(SDL_Sprite* sprite)
     return r;
 }
 
+SDL_Context* SDL_CreateContext(const char* title, int sizeX, int sizeY)
+{
+    SDL_Context* context = NULL;
+    context = malloc(sizeof(SDL_Context));
+    if (context == NULL)
+    {
+        error("Malloc error");
+        return NULL;
+    }
+
+    context->window = NULL;
+    context->renderer = NULL;
+    context->isOpen = 0;
+
+    context->window = SDL_CreateWindow(title,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,sizeX,sizeY,SDL_WINDOW_SHOWN);
+    if (context->window == NULL)
+    {
+        errorSDL("Window");
+        return NULL;
+    }
+    else
+    {
+        context->isOpen = 1;
+    }
+
+    context->renderer = SDL_CreateRenderer(context->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (context->renderer == NULL)
+    {
+        errorSDL("Renderer");
+        return NULL;
+    }
+
+    // Icon
+    context->icon = SDL_LoadBMP("Assets/icon.bmp");
+    SDL_SetColorKey(context->icon,SDL_TRUE,SDL_MapRGB(context->icon->format,255,0,255));
+    SDL_SetWindowIcon(context->window,context->icon);
+
+    // Cursor
+    context->cursor = SDL_CreateSpriteTransparency("Assets/cursor.bmp",context->renderer,255,0,255);
+    if (context->cursor != NULL)
+    {
+        SDL_ShowCursor(0);
+    }
+
+    // Ouverture d'un canal audio
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+    {
+        error("Audio canal");
+        return NULL;
+    }
+
+    // On joue la musique
+    context->music = Mix_LoadMUS("Assets/theme.ogg");
+    if (context->music != NULL)
+    {
+        Mix_PlayMusic(context->music,-1);
+    }
+
+    return context;
+}
+
+void SDL_DestroyContext(SDL_Context* context)
+{
+    if (context != NULL)
+    {
+        Mix_HaltMusic();
+        Mix_FreeMusic(context->music);
+        SDL_DestroyRenderer(context->renderer);
+        SDL_DestroyWindow(context->window);
+        context->isOpen = 0;
+    }
+    free(context);
+}
+
 SDL_Point SDL_GetMousePosition()
 {
     SDL_Point p;
@@ -197,9 +218,9 @@ int randomInt(int min, int max)
     return rand() % (max - min + 1) + min;
 }
 
-Coords randomCoords(int minX, int maxX, int minY, int maxY)
+SDL_Point randomCoords(int minX, int maxX, int minY, int maxY)
 {
-    Coords c;
+    SDL_Point c;
     c.x = randomInt(minX,maxX);
     c.y = randomInt(minY,maxY);
     return c;

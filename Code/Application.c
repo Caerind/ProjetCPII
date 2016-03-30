@@ -3,15 +3,10 @@
 #include "Utils.h"
 #include "States.h"
 
-#include <SDL2/SDL_audio.h>
-#include <SDL2/SDL_mixer.h>
-
 // Notre structure Context
 SDL_Context* mContext = NULL;
-Mix_Music* mMusic = NULL;
-SDL_Sprite* mCursor = NULL;
 
-int init()
+int init(const char* title, int width, int height)
 {
     // Initialisation du générateur de nombre aléatoire
     srand(time(NULL));
@@ -24,37 +19,11 @@ int init()
     }
 
     // Initialisation du Context
-    mContext = SDL_CreateContext("Labyrinthe",SCREEN_WIDTH,SCREEN_HEIGHT);
+    mContext = SDL_CreateContext(title,width,height);
     if (mContext == NULL)
     {
         error("Context");
         return -1;
-    }
-
-    mCursor = SDL_CreateSpriteTransparency("Assets/cursor.bmp",mContext->renderer,255,0,255);
-    if (mCursor != NULL)
-    {
-        SDL_ShowCursor(0);
-    }
-
-    // Ouverture d'un canal
-    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
-    {
-        return -1;
-    }
-
-    // On charge et on joue la musique
-    mMusic = Mix_LoadMUS("Assets/theme.ogg");
-    if (mMusic != NULL)
-    {
-        if (Mix_PlayMusic(mMusic,-1) == -1)
-        {
-            printf("Mix_PlayMusic: %s\n", Mix_GetError());
-        }
-    }
-    else
-    {
-        printf("Mix_LoadMUS: %s\n", Mix_GetError());
     }
 
     // Chargement du menu
@@ -65,16 +34,11 @@ int init()
 
 void quit()
 {
-    // On arrete la musique
-    Mix_HaltMusic();
-
     // On detruit le dernier state
     STATES_switch(-1,mContext);
 
     // Suppresion du Context
     SDL_DestroyContext(mContext);
-
-    Mix_FreeMusic(mMusic);
 
     // On quitte SDL
     SDL_Quit();
@@ -106,6 +70,7 @@ void update()
 
 void render()
 {
+    // Position de la souris
     SDL_Point m = SDL_GetMousePosition();
 
     // On efface le contenu de la fenêtre
@@ -114,11 +79,12 @@ void render()
     // On dessine le state actuel
 	STATES_render(mContext->renderer);
 
-	if (mCursor != NULL)
+    // On dessine le curseur
+	if (mContext->cursor != NULL)
     {
-        mCursor->pos.x = m.x;
-        mCursor->pos.y = m.y;
-        SDL_RenderSprite(mContext->renderer,mCursor);
+        mContext->cursor->pos.x = m.x;
+        mContext->cursor->pos.y = m.y;
+        SDL_RenderSprite(mContext->renderer,mContext->cursor);
     }
     else
     {

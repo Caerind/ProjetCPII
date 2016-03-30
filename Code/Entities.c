@@ -1,22 +1,22 @@
 #include "Utils.h"
 #include "Path.h"
 
-void SetCheesePosition(Cheese* cheese,int x, int y)
+void SetCheesePosition(Cheese* cheese, int x, int y)
 {
-    cheese->coords.x=x;
-    cheese->coords.y=y;
-    cheese->sprite->pos.x=x*TILE_SIZE;
-    cheese->sprite->pos.y=y*TILE_SIZE;
+    cheese->coords.x = x;
+    cheese->coords.y = y;
+    cheese->sprite->pos.x = x * TILE_SIZE;
+    cheese->sprite->pos.y = y * TILE_SIZE;
 }
 
-Coords GetCheesePosition(Cheese* cheese)
+SDL_Point GetCheesePosition(Cheese* cheese)
 {
    return cheese->coords;
 }
 
-Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
+Cheese* createCheese(int x, int y, SDL_Renderer* renderer)
 {
-     Cheese* cheese = NULL;
+    Cheese* cheese = NULL;
 
     // Allocation memoire
     cheese = malloc(sizeof(Cheese));
@@ -26,9 +26,9 @@ Cheese* createCheese(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    cheese->sprite = SDL_CreateSpriteTransparency("Assets/fromage.bmp",renderer,255,0,255);
+    cheese->sprite = SDL_CreateSpriteTransparency("Assets/fromage.bmp", renderer, 255, 0, 255);
 
-    SetCheesePosition(cheese,x,y);
+    SetCheesePosition(cheese, x, y);
 
     return cheese;
 }
@@ -43,30 +43,26 @@ void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
 {
     if (cheese != NULL)
     {
-        SDL_RenderSprite(renderer,cheese->sprite);
+        SDL_RenderSprite(renderer, cheese->sprite);
     }
 }
 
-
-
-
-void SetMousePosition(Mouse* mouse,int x, int y)
+void SetMousePosition(Mouse* mouse, int x, int y)
 {
-    mouse->coords.x=x;
-    mouse->coords.y=y;
-    mouse->sprite->pos.x=x*TILE_SIZE;
-    mouse->sprite->pos.y=y*TILE_SIZE;
+    mouse->coords.x = x;
+    mouse->coords.y = y;
+    mouse->sprite->pos.x = x * TILE_SIZE;
+    mouse->sprite->pos.y = y * TILE_SIZE;
 }
 
-Coords GetMousePosition(Mouse* mouse)
+SDL_Point GetMousePosition(Mouse* mouse)
 {
    return mouse->coords;
 }
 
-Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
+Mouse* createMouse(int x, int y, SDL_Renderer* renderer)
 {
     Mouse* mouse = NULL;
-    Node b;
 
     // Allocation memoire
     mouse = malloc(sizeof(Mouse));
@@ -76,18 +72,10 @@ Mouse* createMouse(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    mouse->sprite = SDL_CreateSpriteTransparency("Assets/jerry.bmp",renderer,255,0,255);
+    mouse->sprite = SDL_CreateSpriteTransparency("Assets/jerry.bmp", renderer, 255, 0, 255);
     mouse->sprite->rect.w = 32;
 
-    SetMousePosition(mouse,x,y);
-
-    b.x = x;
-    b.y = y;
-
-    /*mouse->nodes[0] = b;
-    mouse->start = b;
-    mouse->dest = b;
-    mouse->numNodes = 1;*/
+    SetMousePosition(mouse, x, y);
 
     return mouse;
 }
@@ -102,26 +90,24 @@ void renderMouse(SDL_Renderer* renderer, Mouse* mouse)
 {
     if (mouse != NULL)
     {
-        SDL_RenderSprite(renderer,mouse->sprite);
+        SDL_RenderSprite(renderer, mouse->sprite);
     }
 }
 
-
-
-void SetCatPosition(Cat* cat,int x, int y)
+void SetCatPosition(Cat* cat, int x, int y)
 {
-    cat->coords.x=x;
-    cat->coords.y=y;
-    cat->sprite->pos.x=x*TILE_SIZE;
-    cat->sprite->pos.y=y*TILE_SIZE;
+    cat->coords.x = x;
+    cat->coords.y = y;
+    cat->sprite->pos.x = x * TILE_SIZE;
+    cat->sprite->pos.y = y * TILE_SIZE;
 }
 
-Coords GetCatPosition(Cat* cat)
+SDL_Point GetCatPosition(Cat* cat)
 {
    return cat->coords;
 }
 
-Cat* createCat(int x, int y,SDL_Renderer* renderer)
+Cat* createCat(int x, int y, SDL_Renderer* renderer)
 {
      Cat* cat = NULL;
 
@@ -133,9 +119,9 @@ Cat* createCat(int x, int y,SDL_Renderer* renderer)
         return NULL;
     }
 
-    cat->sprite = SDL_CreateSpriteTransparency("Assets/tom.bmp",renderer,255,0,255);
+    cat->sprite = SDL_CreateSpriteTransparency("Assets/tom.bmp", renderer, 255, 0, 255);
 
-    SetCatPosition(cat,x,y);
+    SetCatPosition(cat, x, y);
 
     return cat;
 }
@@ -150,6 +136,6 @@ void renderCat(SDL_Renderer* renderer, Cat* cat)
 {
     if (cat != NULL)
     {
-        SDL_RenderSprite(renderer,cat->sprite);
+        SDL_RenderSprite(renderer, cat->sprite);
     }
 }
