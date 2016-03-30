@@ -1,7 +1,7 @@
 #include "Utils.h"
 #include "Path.h"
 
-void SetCheesePosition(Cheese* cheese, int x, int y)
+void setCheesePosition(Cheese* cheese, int x, int y)
 {
     cheese->coords.x = x;
     cheese->coords.y = y;
@@ -9,7 +9,7 @@ void SetCheesePosition(Cheese* cheese, int x, int y)
     cheese->sprite->pos.y = y * TILE_SIZE;
 }
 
-SDL_Point GetCheesePosition(Cheese* cheese)
+SDL_Point getCheesePosition(Cheese* cheese)
 {
    return cheese->coords;
 }
@@ -28,7 +28,7 @@ Cheese* createCheese(int x, int y, SDL_Renderer* renderer)
 
     cheese->sprite = SDL_CreateSpriteTransparency("Assets/fromage.bmp", renderer, 255, 0, 255);
 
-    SetCheesePosition(cheese, x, y);
+    setCheesePosition(cheese, x, y);
 
     return cheese;
 }
@@ -47,7 +47,7 @@ void renderCheese(SDL_Renderer* renderer, Cheese* cheese)
     }
 }
 
-void SetMousePosition(Mouse* mouse, int x, int y)
+void setMousePosition(Mouse* mouse, int x, int y)
 {
     mouse->coords.x = x;
     mouse->coords.y = y;
@@ -55,7 +55,7 @@ void SetMousePosition(Mouse* mouse, int x, int y)
     mouse->sprite->pos.y = y * TILE_SIZE;
 }
 
-SDL_Point GetMousePosition(Mouse* mouse)
+SDL_Point getMousePosition(Mouse* mouse)
 {
    return mouse->coords;
 }
@@ -75,7 +75,7 @@ Mouse* createMouse(int x, int y, SDL_Renderer* renderer)
     mouse->sprite = SDL_CreateSpriteTransparency("Assets/jerry.bmp", renderer, 255, 0, 255);
     mouse->sprite->rect.w = 32;
 
-    SetMousePosition(mouse, x, y);
+    setMousePosition(mouse, x, y);
 
     return mouse;
 }
@@ -94,7 +94,7 @@ void renderMouse(SDL_Renderer* renderer, Mouse* mouse)
     }
 }
 
-void SetCatPosition(Cat* cat, int x, int y)
+void setCatPosition(Cat* cat, int x, int y)
 {
     cat->coords.x = x;
     cat->coords.y = y;
@@ -102,7 +102,7 @@ void SetCatPosition(Cat* cat, int x, int y)
     cat->sprite->pos.y = y * TILE_SIZE;
 }
 
-SDL_Point GetCatPosition(Cat* cat)
+SDL_Point getCatPosition(Cat* cat)
 {
    return cat->coords;
 }
@@ -121,7 +121,7 @@ Cat* createCat(int x, int y, SDL_Renderer* renderer)
 
     cat->sprite = SDL_CreateSpriteTransparency("Assets/tom.bmp", renderer, 255, 0, 255);
 
-    SetCatPosition(cat, x, y);
+    setCatPosition(cat, x, y);
 
     return cat;
 }

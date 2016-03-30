@@ -4,8 +4,8 @@
 
 void generateMouseTree(Maze* maze, int mouseIndex)
 {
-    int i=0,j,k,test;
-    SDL_Point wall,parent;
+    int i = 0, j, k, test;
+    SDL_Point wall, parent;
     Node node;
     Mouse* mouse = maze->mouses[mouseIndex];
 
@@ -16,32 +16,31 @@ void generateMouseTree(Maze* maze, int mouseIndex)
     mouse->nodes[0] = node;
     mouse->numNodes = 1;
 
-    if(mouse->coords.x%2==0||mouse->coords.y%2==0)//si les souris ne sont pas initialement dans les nodes
+    // Si la souris n'est pas initialement dans un node
+    if (mouse->coords.x % 2 == 0 || mouse->coords.y % 2 == 0)
     {
         i++;
         parent.x = node.x;
         parent.y = node.y;
         node.parent = parent;
-        if(mouse->coords.x%2==0&&mouse->coords.y%2==0)
+        if (mouse->coords.x % 2 == 0 && mouse->coords.y % 2 == 0)
         {
-            node.x=node.x-1;
-            node.y=node.y-1;
+            node.x = node.x-1;
+            node.y = node.y-1;
         }
-        if(mouse->coords.x%2==0&&mouse->coords.y%2==1)
+        if (mouse->coords.x % 2 == 0 && mouse->coords.y % 2 == 1)
         {
-            node.x=node.x-1;
-            node.y=node.y;
+            node.x = node.x-1;
+            node.y = node.y;
         }
-        if(mouse->coords.x%2==1&&mouse->coords.y%2==0)
+        if (mouse->coords.x % 2 == 1 && mouse->coords.y % 2 == 0)
         {
-            node.x=node.x;
-            node.y=node.y-1;
+            node.x = node.x;
+            node.y = node.y-1;
         }
-        mouse->nodes[mouse->numNodes]=node;
+        mouse->nodes[mouse->numNodes] = node;
         mouse->numNodes++;
     }
-
-
 
     // On crée l'arbre
     do
@@ -71,8 +70,9 @@ void generateMouseTree(Maze* maze, int mouseIndex)
             {
                 node.x += 2;
             }
-            //on teste si elle est dans le labyrinth
-            if(node.y>=0 && node.y<=17 && node.x>=0 && node.x<=23)
+
+            // On teste si elle est dans le labyrinthe
+            if (node.y >= 0 && node.y <= 17 && node.x >= 0 && node.x <= 23)
             {
                 // On teste si elle existe deja
                 test = 0; // Non contenu
@@ -103,23 +103,19 @@ void generateMouseTree(Maze* maze, int mouseIndex)
                     wall.x++;
                 }
 
-
                 if (test == 0 && getMazeId(maze,wall.x,wall.y) < Mur) // Non contenu et pas mur
                 {
                     // Si c'est bon on ajoute dans la liste des noeuds
                     mouse->nodes[mouse->numNodes] = node;
-                    mouse->nodes[mouse->numNodes].test=0;
+                    mouse->nodes[mouse->numNodes].test = 0;
                     mouse->numNodes++;
                 }
             }
         }
         i++;
     }
-    while(i<=mouse->numNodes);
+    while (i <= mouse->numNodes);
     findTarget(maze,mouse);
-    /*printf("mouse pos : %d %d\n",mouse->coords.x,mouse->coords.y);
-    printf("start : %d %d\n",mouse->start.x,mouse->start.y);
-    printf("dest : %d %d\n",mouse->dest.x, mouse->dest.y);*/
 }
 
 void moveToTarget(Mouse* mouse)
@@ -127,22 +123,22 @@ void moveToTarget(Mouse* mouse)
     // Descendre
     if (mouse->coords.x == mouse->dest.x && mouse->coords.y < mouse->dest.y)
     {
-        SetMousePosition(mouse,mouse->coords.x,mouse->coords.y + 1);
+        setMousePosition(mouse,mouse->coords.x,mouse->coords.y + 1);
     }
     // Monter
     if (mouse->coords.x == mouse->dest.x && mouse->coords.y > mouse->dest.y)
     {
-        SetMousePosition(mouse,mouse->coords.x,mouse->coords.y - 1);
+        setMousePosition(mouse,mouse->coords.x,mouse->coords.y - 1);
     }
     // Droite
     if (mouse->coords.x < mouse->dest.x && mouse->coords.y == mouse->dest.y)
     {
-        SetMousePosition(mouse,mouse->coords.x + 1,mouse->coords.y);
+        setMousePosition(mouse,mouse->coords.x + 1,mouse->coords.y);
     }
     // Gauche
     if (mouse->coords.x > mouse->dest.x && mouse->coords.y == mouse->dest.y)
     {
-        SetMousePosition(mouse,mouse->coords.x - 1,mouse->coords.y);
+        setMousePosition(mouse,mouse->coords.x - 1,mouse->coords.y);
     }
 }
 
@@ -153,25 +149,25 @@ void moveToMouse(Maze* maze,Cat* cat)
     // Descendre
     if (cat->coords.x == cat->dest.x && cat->coords.y < cat->dest.y && getMazeId(maze,cat->coords.x,cat->coords.y + 1) < Mur)
     {
-        SetCatPosition(cat,cat->coords.x,cat->coords.y + 1);
+        setCatPosition(cat,cat->coords.x,cat->coords.y + 1);
         moved = 1;
     }
     // Monter
     if (cat->coords.x == cat->dest.x && cat->coords.y > cat->dest.y && getMazeId(maze,cat->coords.x,cat->coords.y - 1) < Mur)
     {
-        SetCatPosition(cat,cat->coords.x,cat->coords.y - 1);
+        setCatPosition(cat,cat->coords.x,cat->coords.y - 1);
         moved = 1;
     }
     // Droite
     if (cat->coords.x < cat->dest.x && cat->coords.y == cat->dest.y && getMazeId(maze,cat->coords.x + 1,cat->coords.y) < Mur)
     {
-        SetCatPosition(cat,cat->coords.x + 1,cat->coords.y);
+        setCatPosition(cat,cat->coords.x + 1,cat->coords.y);
         moved = 1;
     }
     // Gauche
     if (cat->coords.x > cat->dest.x && cat->coords.y == cat->dest.y && getMazeId(maze,cat->coords.x - 1,cat->coords.y) < Mur)
     {
-        SetCatPosition(cat,cat->coords.x - 1,cat->coords.y);
+        setCatPosition(cat,cat->coords.x - 1,cat->coords.y);
         moved = 1;
     }
 
@@ -183,12 +179,12 @@ void moveToMouse(Maze* maze,Cat* cat)
         {
             if (getMazeId(maze,cat->coords.x-1,cat->coords.y) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x-1,cat->coords.y);
+                setCatPosition(cat,cat->coords.x-1,cat->coords.y);
                 moved = 1;
             }
             if (getMazeId(maze,cat->coords.x,cat->coords.y-1) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x,cat->coords.y-1);
+                setCatPosition(cat,cat->coords.x,cat->coords.y-1);
                 moved = 1;
             }
         }
@@ -197,12 +193,12 @@ void moveToMouse(Maze* maze,Cat* cat)
         {
             if (getMazeId(maze,cat->coords.x+1,cat->coords.y) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x+1,cat->coords.y);
+                setCatPosition(cat,cat->coords.x+1,cat->coords.y);
                 moved = 1;
             }
             if (getMazeId(maze,cat->coords.x,cat->coords.y-1) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x,cat->coords.y-1);
+                setCatPosition(cat,cat->coords.x,cat->coords.y-1);
                 moved = 1;
             }
         }
@@ -211,12 +207,12 @@ void moveToMouse(Maze* maze,Cat* cat)
         {
             if (getMazeId(maze,cat->coords.x-1,cat->coords.y) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x-1,cat->coords.y);
+                setCatPosition(cat,cat->coords.x-1,cat->coords.y);
                 moved = 1;
             }
             if (getMazeId(maze,cat->coords.x,cat->coords.y+1) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x,cat->coords.y+1);
+                setCatPosition(cat,cat->coords.x,cat->coords.y+1);
                 moved = 1;
             }
         }
@@ -225,12 +221,12 @@ void moveToMouse(Maze* maze,Cat* cat)
         {
             if (getMazeId(maze,cat->coords.x+1,cat->coords.y) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x+1,cat->coords.y);
+                setCatPosition(cat,cat->coords.x+1,cat->coords.y);
                 moved = 1;
             }
             if (getMazeId(maze,cat->coords.x,cat->coords.y+1) < Mur && moved == 0)
             {
-                SetCatPosition(cat,cat->coords.x,cat->coords.y+1);
+                setCatPosition(cat,cat->coords.x,cat->coords.y+1);
                 moved = 1;
             }
         }
@@ -254,9 +250,9 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
     }
 
     // on trouve les enfants de cette node
-    for(j = 0; j < mouse->numNodes; j++)
+    for (j = 0; j < mouse->numNodes; j++)
     {
-        if (mouse->nodes[j].parent.x == mouse->start.x&&mouse->nodes[j].parent.y==mouse->start.y&&mouse->nodes[j].test==0)
+        if (mouse->nodes[j].parent.x == mouse->start.x && mouse->nodes[j].parent.y == mouse->start.y && mouse->nodes[j].test == 0)
         {
             tab[numNodesPossibilities] = mouse->nodes[j];
             numNodesPossibilities++;
@@ -268,26 +264,25 @@ void findTarget(Maze* maze,Mouse* mouse)//trouver la prochaine node
     {
         mouse->dest = tab[0];
         //on le ferme
-        for(j = 0; j < mouse->numNodes; j++)
+        for (j = 0; j < mouse->numNodes; j++)
         {
-            if (mouse->nodes[j].x == mouse->dest.x&&mouse->nodes[j].y==mouse->dest.y)
+            if (mouse->nodes[j].x == mouse->dest.x && mouse->nodes[j].y == mouse->dest.y)
             {
-                mouse->nodes[j].test= 1;
+                mouse->nodes[j].test = 1;
             }
         }
     }
 
-    if(numNodesPossibilities==0)// c'est un chemin mort, pour retourner, on prend son parent
+    if (numNodesPossibilities == 0) // c'est un chemin mort, pour retourner, on prend son parent
     {
-        for(j = 0; j < mouse->numNodes; j++)
+        for (j = 0; j < mouse->numNodes; j++)
         {
-            if (mouse->nodes[j].x == mouse->start.parent.x&&mouse->nodes[j].y==mouse->start.parent.y)
+            if (mouse->nodes[j].x == mouse->start.parent.x && mouse->nodes[j].y == mouse->start.parent.y)
             {
-                mouse->dest=mouse->nodes[j];
+                mouse->dest = mouse->nodes[j];
             }
         }
     }
-    printf("p : %d\n",numNodesPossibilities);
 }
 
 void nextMoveMouse(Maze* maze, int mouseIndex)
@@ -296,184 +291,179 @@ void nextMoveMouse(Maze* maze, int mouseIndex)
     int test = 0, chat = 0, moved = 0, node = 0;
     int i,j,k;
 
-    //s'il n'y a pas de fromage, ni de chat, les souris ne bougent pas
-    if(maze->cheeses[0]== NULL && maze->cats[0] == NULL)
+    // S'il n'y a pas de fromage, ni de chat, les souris ne bougent pas
+    if (maze->cheeses[0]== NULL && maze->cats[0] == NULL)
     {
         test = 1;
     }
 
-    //on test si le souris ranvontre le chat
-    for(i = 0; i < maze->numCats; i++)
+    // On teste si le souris ranvontre le chat
+    for (i = 0; i < maze->numCats; i++)
     {
-        if(mouse->coords.x == maze->cats[i]->coords.x && mouse->coords.y == maze->cats[i]->coords.y)
+        if (mouse->coords.x == maze->cats[i]->coords.x && mouse->coords.y == maze->cats[i]->coords.y)
         {
             test = 1;
         }
     }
 
-    if(test == 0) // si on n'a pas encore trouve le fromage
+    if (test == 0) // Si on n'a pas encore trouve le fromage
     {
-        for(j = 0; j < maze->numCats; j++)//on determine s'il y a du chat autour des souris
+        for (j = 0; j < maze->numCats; j++) // On determine s'il y a du chat autour des souris
         {
-            if(mouse->dest.x > mouse->coords.x)
+            if (mouse->dest.x > mouse->coords.x)
             {
-                if((maze->cats[j]->coords.x == mouse->coords.x+2 && maze->cats[j]->coords.y == mouse->coords.y)
+                if ((maze->cats[j]->coords.x == mouse->coords.x+2 && maze->cats[j]->coords.y == mouse->coords.y)
                  ||(maze->cats[j]->coords.x == mouse->coords.x+1 && mouse->coords.y == maze->cats[j]->coords.y))
                 {
-                    chat=1;
+                    chat = 1;
                 }
-                for(i = 0; i < maze->numCheeses; i++)
+                for (i = 0; i < maze->numCheeses; i++)
                 {
-                    if(maze->cheeses[i]->coords.x == mouse->coords.x+1&&maze->cheeses[i]->coords.y == mouse->coords.y)
+                    if (maze->cheeses[i]->coords.x == mouse->coords.x+1 && maze->cheeses[i]->coords.y == mouse->coords.y)
                     {
-                        chat=0;
+                        chat = 0;
                     }
                 }
             }
 
-            if(mouse->dest.y > mouse->coords.y)
+            if (mouse->dest.y > mouse->coords.y)
             {
-                if((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+2)
+                if ((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+2)
                  ||(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y+1))
                 {
-                    chat=1;
+                    chat = 1;
                 }
-                for(i = 0; i < maze->numCheeses; i++)
+                for (i = 0; i < maze->numCheeses; i++)
                 {
-                    if(maze->cheeses[i]->coords.x == mouse->coords.x && maze->cheeses[i]->coords.y == mouse->coords.y+1)
+                    if (maze->cheeses[i]->coords.x == mouse->coords.x && maze->cheeses[i]->coords.y == mouse->coords.y+1)
                     {
-                        chat=0;
+                        chat = 0;
                     }
                 }
             }
 
-            if(mouse->dest.x < mouse->coords.x)
+            if (mouse->dest.x < mouse->coords.x)
             {
-                if((maze->cats[j]->coords.x == mouse->coords.x-2 && mouse->coords.y == maze->cats[j]->coords.y)
+                if ((maze->cats[j]->coords.x == mouse->coords.x-2 && mouse->coords.y == maze->cats[j]->coords.y)
                  ||(maze->cats[j]->coords.x == mouse->coords.x-1 && mouse->coords.y == maze->cats[j]->coords.y))
                 {
-                    chat=1;
+                    chat = 1;
                 }
-                for(i = 0; i < maze->numCheeses; i++)
+                for (i = 0; i < maze->numCheeses; i++)
                 {
-                    if(maze->cheeses[i]->coords.x == mouse->coords.x-1 && maze->cheeses[i]->coords.y == mouse->coords.y)
+                    if (maze->cheeses[i]->coords.x == mouse->coords.x-1 && maze->cheeses[i]->coords.y == mouse->coords.y)
                     {
-                        chat=0;
+                        chat = 0;
                     }
                 }
             }
 
-            if(mouse->dest.y < mouse->coords.y)
+            if (mouse->dest.y < mouse->coords.y)
             {
-                if((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-2)
+                if ((maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-2)
                  ||(maze->cats[j]->coords.x == mouse->coords.x && maze->cats[j]->coords.y == mouse->coords.y-1))
                 {
-                    chat=1;
+                    chat = 1;
                 }
-                for(i = 0; i < maze->numCheeses; i++)
+                for (i = 0; i < maze->numCheeses; i++)
                 {
-                    if(maze->cheeses[i]->coords.x == mouse->coords.x && maze->cheeses[i]->coords.y == mouse->coords.y-1)
+                    if (maze->cheeses[i]->coords.x == mouse->coords.x && maze->cheeses[i]->coords.y == mouse->coords.y-1)
                     {
-                        chat=0;
+                        chat = 0;
                     }
                 }
             }
         }
 
-        if(chat==1)//si le souris va renvontrer le chat, il retourne
+        if (chat == 1) // Si le souris va rencontrer le chat, elle retourne
         {
-            for(k = 0; k < mouse->numNodes; k++)
+            for (k = 0; k < mouse->numNodes; k++)
             {
-                //on ouvre tous les chemins fermés sauf celui de node actuel
-                if(mouse->nodes[k].x != mouse->dest.x && mouse->nodes[k].y != mouse->dest.y)
+                // On ouvre tous les chemins fermés sauf celui de node actuel
+                if (mouse->nodes[k].x != mouse->dest.x && mouse->nodes[k].y != mouse->dest.y)
                 {
                     mouse->nodes[k].test = 0;
                 }
-                 //on trouve le parent de mouse->dest
+                // On trouve le parent de mouse->dest
                 if (mouse->nodes[k].x == mouse->dest.parent.x && mouse->nodes[k].y == mouse->dest.parent.y)
                 {
                     mouse->dest = mouse->nodes[k];
                 }
             }
 
-            chat=0;
+            chat = 0;
         }
         else
         {
-            //s'il y a le fromage juste a cote, on le mange
-            for(i = 0; i < maze->numCheeses; i++)
+            // S'il y a le fromage juste a cote, on le mange
+            for (i = 0; i < maze->numCheeses; i++)
             {
-                if(moved == 0 && mouse->coords.x+1 == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
+                if (moved == 0 && mouse->coords.x+1 == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
                 {
-                    SetMousePosition(mouse,mouse->coords.x+1,mouse->coords.y);
-                    moved=1;
-                    for(i = 0;i < mouse->numNodes;i++)//on revient a la node la plus proche
+                    setMousePosition(mouse,mouse->coords.x+1,mouse->coords.y);
+                    moved = 1;
+                    for (i = 0;i < mouse->numNodes;i++) // On revient a la node la plus proche
                     {
-                        if(mouse->nodes[i].x == mouse->coords.x-1 && mouse->nodes[i].y == mouse->coords.y)
+                        if (mouse->nodes[i].x == mouse->coords.x-1 && mouse->nodes[i].y == mouse->coords.y)
                         {
                             mouse->dest = mouse->nodes[i];
                         }
-
+                    }
+                    for (k = 0; k < mouse->numNodes; k++)
+                    {
+                        mouse->nodes[k].test = 0;
+                    }
+                }
+                if (moved == 0 && mouse->coords.x-1 == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
+                {
+                    setMousePosition(mouse,mouse->coords.x-1,mouse->coords.y);
+                    moved = 1;
+                    for (i = 0; i < mouse->numNodes; i++) // On revient a la node la plus proche
+                    {
+                        if (mouse->nodes[i].x == mouse->coords.x+1 && mouse->nodes[i].y == mouse->coords.y)
+                        {
+                            mouse->dest = mouse->nodes[i];
+                        }
+                    }
+                    for (k = 0; k < mouse->numNodes; k++)
+                    {
+                        mouse->nodes[k].test = 0;
+                    }
+                }
+                if (moved == 0 && mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y+1 == maze->cheeses[i]->coords.y)
+                {
+                    setMousePosition(mouse,mouse->coords.x,mouse->coords.y+1);
+                    moved = 1;
+                    for (i = 0;i < mouse->numNodes;i++) // On revient a la node la plus proche
+                    {
+                        if (mouse->nodes[i].x == mouse->coords.x && mouse->nodes[i].y == mouse->coords.y-1)
+                        {
+                            mouse->dest = mouse->nodes[i];
+                        }
+                    }
+                    for (k = 0; k < mouse->numNodes; k++)
+                    {
+                        mouse->nodes[k].test = 0;
+                    }
+                }
+                if (moved == 0 && mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y-1 == maze->cheeses[i]->coords.y)
+                {
+                    setMousePosition(mouse,mouse->coords.x,mouse->coords.y-1);
+                    moved = 1;
+                    for (i = 0; i < mouse->numNodes; i++) // On revient a la node la plus proche
+                    {
+                        if (mouse->nodes[i].x == mouse->coords.x && mouse->nodes[i].y == mouse->coords.y+1)
+                        {
+                            mouse->dest = mouse->nodes[i];
+                        }
                     }
                     for(k = 0; k < mouse->numNodes; k++)
                     {
                         mouse->nodes[k].test = 0;
                     }
                 }
-                if(moved == 0 && mouse->coords.x-1 == maze->cheeses[i]->coords.x && mouse->coords.y == maze->cheeses[i]->coords.y)
-                {
-                    SetMousePosition(mouse,mouse->coords.x-1,mouse->coords.y);
-                    moved=1;
-                    for(i = 0;i < mouse->numNodes;i++)//on revient a la node la plus proche
-                    {
-                        if(mouse->nodes[i].x == mouse->coords.x+1 && mouse->nodes[i].y == mouse->coords.y)
-                        {
-                            mouse->dest = mouse->nodes[i];
-                        }
-
-                    }
-                    for(k = 0; k < mouse->numNodes; k++)
-                    {
-                        mouse->nodes[k].test = 0;
-                    }
-                }
-                if(moved == 0 && mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y+1 == maze->cheeses[i]->coords.y)
-                {
-                    SetMousePosition(mouse,mouse->coords.x,mouse->coords.y+1);
-                    moved=1;
-                    for(i = 0;i < mouse->numNodes;i++)//on revient a la node la plus proche
-                    {
-                        if(mouse->nodes[i].x == mouse->coords.x && mouse->nodes[i].y == mouse->coords.y-1)
-                        {
-                            mouse->dest = mouse->nodes[i];
-                        }
-
-                    }
-                    for(k = 0; k < mouse->numNodes; k++)
-                    {
-                        mouse->nodes[k].test = 0;
-                    }
-                }
-                if(moved == 0 && mouse->coords.x == maze->cheeses[i]->coords.x && mouse->coords.y-1 == maze->cheeses[i]->coords.y)
-                {
-                    SetMousePosition(mouse,mouse->coords.x,mouse->coords.y-1);
-                    moved=1;
-                    for(i = 0;i < mouse->numNodes;i++)//on revient a la node la plus proche
-                    {
-                        if(mouse->nodes[i].x == mouse->coords.x && mouse->nodes[i].y == mouse->coords.y+1)
-                        {
-                            mouse->dest = mouse->nodes[i];
-                        }
-
-                    }
-                    for(k = 0; k < mouse->numNodes; k++)
-                    {
-                        mouse->nodes[k].test = 0;
-                    }
-                }
-
             }
-            if(moved==0)
+            if (moved == 0)
             {
                 moveToTarget(mouse);
             }
@@ -491,7 +481,7 @@ void nextMoveCat(Maze* maze, int catIndex)
     int i;
 
     // On teste s'il y a une souris a cote d'un chat
-    for(i = 0; i < maze->numMouses; i++)
+    for (i = 0; i < maze->numMouses; i++)
     {
         // D = 2
         if ((maze->mouses[i]->coords.x == chat->coords.x+2 && maze->mouses[i]->coords.y == chat->coords.y && getMazeId(maze,chat->coords.x+1,chat->coords.y)< Mur)
@@ -499,7 +489,7 @@ void nextMoveCat(Maze* maze, int catIndex)
                 || (maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+2 && getMazeId(maze,chat->coords.x,chat->coords.y+1)< Mur)
                 || (maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-2 && getMazeId(maze,chat->coords.x,chat->coords.y-1)< Mur))
         {
-            chat->mouse=maze->mouses[i];
+            chat->mouse = maze->mouses[i];
         }
 
         // D = diag
@@ -508,7 +498,7 @@ void nextMoveCat(Maze* maze, int catIndex)
                 || (maze->mouses[i]->coords.x == chat->coords.x+1 && maze->mouses[i]->coords.y == chat->coords.y-1)
                 || (maze->mouses[i]->coords.x == chat->coords.x-1 && maze->mouses[i]->coords.y == chat->coords.y+1))
         {
-            chat->mouse=maze->mouses[i];
+            chat->mouse = maze->mouses[i];
         }
 
         // D = 1
@@ -517,7 +507,7 @@ void nextMoveCat(Maze* maze, int catIndex)
                 || (maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y-1)
                 || (maze->mouses[i]->coords.x == chat->coords.x && maze->mouses[i]->coords.y == chat->coords.y+1))
         {
-            chat->mouse=maze->mouses[i];
+            chat->mouse = maze->mouses[i];
         }
     }
 

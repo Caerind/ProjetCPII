@@ -21,27 +21,14 @@ int GAME_create(SDL_Renderer* renderer)
 
     generation(mMaze);
 
-    addMazeMouse(mMaze,renderer,23,17);
     addMazeCheese(mMaze,renderer,1,1);
+    addMazeMouse(mMaze,renderer,23,17);
 
     return 1;
 }
 
 void GAME_destroy()
 {
-    int i = 0;
-    for (i = 0; i < mMaze->numCheeses; i++)
-    {
-        destroyCheese(mMaze->cheeses[i]);
-    }
-    for (i = 0; i < mMaze->numMouses; i++)
-    {
-        destroyMouse(mMaze->mouses[i]);
-    }
-    for (i = 0; i < mMaze->numCats; i++)
-    {
-        destroyCat(mMaze->cats[i]);
-    }
     destroyMaze(mMaze);
 }
 

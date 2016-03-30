@@ -3,20 +3,20 @@
 
 #include "Structs.h"
 
-void SetCheesePosition(Cheese* cheese, int x, int y);
-SDL_Point GetCheesePosition(Cheese* cheese);
+void setCheesePosition(Cheese* cheese, int x, int y);
+SDL_Point getCheesePosition(Cheese* cheese);
 Cheese* createCheese(int x, int y, SDL_Renderer* renderer);
 void destroyCheese(Cheese* cheese);
 void renderCheese(SDL_Renderer* renderer, Cheese* cheese);
 
-void SetMousePosition(Mouse* mouse, int x, int y);
-SDL_Point GetMousePosition(Mouse* mouse);
+void setMousePosition(Mouse* mouse, int x, int y);
+SDL_Point getMousePosition(Mouse* mouse);
 Mouse* createMouse(int x, int y, SDL_Renderer* renderer);
 void destroyMouse(Mouse* mouse);
 void renderMouse(SDL_Renderer* renderer, Mouse* mouse);
 
-void SetCatPosition(Cat* cat, int x, int y);
-SDL_Point GetCatPosition(Cat* cat);
+void setCatPosition(Cat* cat, int x, int y);
+SDL_Point getCatPosition(Cat* cat);
 Cat* createCat(int x, int y, SDL_Renderer* renderer);
 void destroyCat(Cat* cat);
 void renderCat(SDL_Renderer* renderer, Cat* cat);

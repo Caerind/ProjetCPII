@@ -37,6 +37,18 @@ Maze* createMaze(int sizeX, int sizeY)
 void destroyMaze(Maze* maze)
 {
     int i;
+    for (i = 0; i < maze->numCheeses; i++)
+    {
+        destroyCheese(maze->cheeses[i]);
+    }
+    for (i = 0; i < maze->numMouses; i++)
+    {
+        destroyMouse(maze->mouses[i]);
+    }
+    for (i = 0; i < maze->numCats; i++)
+    {
+        destroyCat(maze->cats[i]);
+    }
     for (i = 0; i < maze->size.x; i++)
     {
         free(maze->tab[i]);

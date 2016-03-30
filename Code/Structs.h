@@ -55,7 +55,6 @@ struct Mouse
 
     Node dest;
     Node start;
-
 };
 typedef struct Mouse Mouse;
 

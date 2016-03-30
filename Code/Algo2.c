@@ -28,6 +28,7 @@ void ALGO2_handleEvent(SDL_Event event, SDL_Context* context)
     {
         STATES_switch(STATE_MENU,context);
     }
+
     // Generation pas à pas
     if (event.type == SDL_MOUSEBUTTONDOWN && event.button.state == SDL_PRESSED && event.button.button == SDL_BUTTON_LEFT)
     {
